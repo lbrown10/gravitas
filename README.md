@@ -20,7 +20,7 @@ You will need a basic Javascript development environment. Some examples:
 Cloning this repository should give you the necessary software to begin development:
 
 ```
-$ git clone https://github.com/mattdavids/strong-attractor gravitas
+$ git clone https://github.com/nguyen-amanda/strong-attractor gravitas
 ```
 
 ## Built With

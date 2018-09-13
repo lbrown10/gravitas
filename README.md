@@ -27,6 +27,10 @@ $ git clone https://github.com/nguyen-amanda/strong-attractor gravitas
 
 * [JavaScript](https://www.javascript.com/) - The programming language used
 * [Phaser](https://phaser.io/) - The web framework used
+* [jQuery](https://jquery.com/) - A cross-platform JavaScript library designed to simplify the client-side scripting of HTML
+
+## Running
+To run the program, simply open the index.html file in the browser of your choice.
 
 ## Authors
 

@@ -3,7 +3,7 @@ let BootState = function(game) {
     function resizeGame() {
         // game.scale.maxWidth = window.innerWidth/(1.5);
         // game.scale.maxHeight = game.scale.maxWidth * (42/81);
-        game.scale.maxWidth = window.innerWidth;
+        game.scale.maxWidth = window.screen.width;
         game.scale.maxHeight = window.screen.height;
     }
 

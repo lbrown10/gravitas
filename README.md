@@ -15,12 +15,14 @@ You will need a basic Javascript development environment. Some examples:
 - [Atom](https://atom.io/)
 - [Brackets](http://brackets.io/)
 
+
 ### Installing
 
-Cloning this repository should give you the necessary software to begin development:
+Cloning this repository and calling yarn in the main directory should give you the necessary software to begin development:
 
 ```
 $ git clone https://github.com/nguyen-amanda/strong-attractor gravitas
+$ yarn
 ```
 
 ## Built With

@@ -31,7 +31,7 @@ let Game = function (game, optionsData) {
     let framesSincePressingDown;
     let framesSincePressingUp;
     let framesHoldingR;
-    
+
     let pauseHandler;
     let deathHandler;
     let exitHandler;
@@ -39,7 +39,7 @@ let Game = function (game, optionsData) {
     let jumpHandler;
     let shadowHandler;
     let optionsHandler;
-    
+
     let playerDataList = [];
 
     // Player movement
@@ -89,7 +89,7 @@ let Game = function (game, optionsData) {
 
         setLayerOrder();
     }
-    
+
     function setLayerOrder() {
         game.world.bringToTop(emitters);
         game.world.sendToBack(shockers);
@@ -100,7 +100,7 @@ let Game = function (game, optionsData) {
         game.world.bringToTop(selectedObjGraphics);
 
         freezeHandler.addArrow(game, player);
-        
+
     }
 
     function setupPauseButton() {
@@ -117,7 +117,7 @@ let Game = function (game, optionsData) {
                     gravObjects.forEach(function(gravObj) {
                         gravObj.animateParticles(true);
                     });
-                    
+
                 } else {
                     handleGravObjSelection();
                     freezeHandler.startFreeze(game);
@@ -162,7 +162,7 @@ let Game = function (game, optionsData) {
                 currentMinObjIndex = i;
             }
         }
-        
+
         currentHighlightedObjIndex = currentMinObjIndex;
     }
 
@@ -189,12 +189,12 @@ let Game = function (game, optionsData) {
         game.load.image('tutorial_gravity_change', 'assets/art/tutorial/gravity_change.png');
         game.load.image('tutorial_gravity_select', 'assets/art/tutorial/gravity_select.png');
         game.load.image('tutorial_restart', 'assets/art/tutorial/restart.png');
-        
+
         game.load.image('resumeButton', 'assets/art/resumeButton.png');
         game.load.image('menuButton', 'assets/art/menuButton.png');
         game.load.image('optionsButton', 'assets/art/optionsButton.png');
         game.load.image('pauseBackground', 'assets/art/pauseBackground.png');
-        
+
         game.load.image('optionsBar', 'assets/art/optionsBar.png');
         game.load.image('addButton', 'assets/art/addButton.png');
         game.load.image('minusButton', 'assets/art/minusButton.png');
@@ -243,10 +243,10 @@ let Game = function (game, optionsData) {
         game.canvas.oncontextmenu = function (e) {
             e.preventDefault();
         };
-        
+
         pauseGraphics = game.add.graphics();
         selectedObjGraphics = game.add.graphics();
-        
+
         gravCirclesTop = game.add.group();
         gravCirclesBottom = game.add.group();
 
@@ -301,11 +301,11 @@ let Game = function (game, optionsData) {
         if (deathHandler.deathFall) {
             deathHandler.doDeathFallAnimation(game, player, blockSize, onPlayerDeath);
         }
-        
+
         if (exitHandler.inExitAnimation) {
             exitHandler.doExitAnimation(player, blockSize, quadraticEase);
         }
-        
+
         doControlButtons();
 
         doCollision();
@@ -341,19 +341,19 @@ let Game = function (game, optionsData) {
                 // Adjust attraction of clicked object
                 adjustAttractorsPull();
             }
-            
+
             freezeHandler.doArrowChange(player);
         }
     }
 
     function render() {
-        
+
         let drawGravObjCircle = function(circleGroup, gravObj, alpha) {
             // these are heuristic constants which look okay
             const subAmount = 50;
             let diameter = 2 * gravObj.radius;
             gravObj.gravCircles.removeAll();
-            
+
             while (diameter > 0) {
                 let circle = game.add.sprite(gravObj.x, gravObj.y, 'circle');
                 circle.anchor.set(.5, .5);
@@ -368,8 +368,8 @@ let Game = function (game, optionsData) {
         };
 
         pauseGraphics.clear();
-        selectedObjGraphics.clear();    
-        
+        selectedObjGraphics.clear();
+
         gravObjects.children.forEach(function(gravObj) {
             if(gravObj.weightHasBeenChanged || gravObj.flux || gravObj.moving) {
                 gravObj.gravCircles.removeAll(true);
@@ -387,7 +387,7 @@ let Game = function (game, optionsData) {
             drawSelectedObjBox();
         }
     }
-    
+
     function drawSelectedObjBox() {
         let selectedObj = selectableGravObjects[currentHighlightedObjIndex];
         selectedObjGraphics.beginFill(0xffffff, 1);
@@ -401,36 +401,36 @@ let Game = function (game, optionsData) {
             selectedObj.y - 15,
             30, selectedObjWidth);
         selectedObjGraphics.drawRect(
-            selectedObj.x - 15, 
+            selectedObj.x - 15,
             selectedObj.y + 15 - selectedObjWidth,
             30, selectedObjWidth);
         selectedObjGraphics.drawRect(
-            selectedObj.x + 15 - selectedObjWidth, selectedObj.y - 15, 
+            selectedObj.x + 15 - selectedObjWidth, selectedObj.y - 15,
             selectedObjWidth, 30);
 
         selectedObjGraphics.endFill();
     }
 
     function resetLevel() {
-        
+
         player.destroy();
         freezeHandler.killArrow();
         player = levelLoader.makePlayer(playerStartX, playerStartY, playerGrav);
-        
+
         gravObjects.children.forEach(function(gravObj) {
             gravObj.resetWeight();
             gravObj.weightHasBeenChanged = true;
         });
-        
+
         movers.forEach(function(obj) {
             obj.x = obj.startingX;
             obj.y = obj.startingY;
             obj.movementIndex = 0;
         });
-        
+
         setLayerOrder();
     }
-    
+
     function clearLevel() {
         player.kill();
         walls.destroy();
@@ -449,7 +449,7 @@ let Game = function (game, optionsData) {
         movers.length = 0;
         tutorialSigns.destroy();
     }
-    
+
     function doCollision() {
         game.physics.arcade.collide(emitters, walls);
         game.physics.arcade.collide(player, walls);
@@ -462,9 +462,9 @@ let Game = function (game, optionsData) {
                     p.life = 0;
             }, null, null);
         }, null);
-        
+
         shadowHandler.update(game, player, walls);
-        
+
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
         if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
@@ -515,7 +515,7 @@ let Game = function (game, optionsData) {
             framesSincePressingDown++;
         }
     }
-    
+
     function doControlButtons(){
         if(game.input.keyboard.isDown(Phaser.KeyCode.R)){
             framesHoldingR++;
@@ -532,13 +532,13 @@ let Game = function (game, optionsData) {
     }
 
     function doPlayerMovement(){
-        if (game.input.keyboard.isDown(Phaser.KeyCode.A)) {
+        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             if (player.body.touching.down && !jumpHandler.recentlyJumped()) {
                 player.body.velocity.x = Math.max(-maxHorizontalVelocity, player.body.velocity.x - groundAcceleration);
             } else {
                 player.body.velocity.x -= airAcceleration;
             }
-        } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) {
+        } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             if (player.body.touching.down && !jumpHandler.recentlyJumped()) {
                 player.body.velocity.x = Math.min(maxHorizontalVelocity, player.body.velocity.x + groundAcceleration);
             } else {
@@ -579,14 +579,14 @@ let Game = function (game, optionsData) {
                 emitter.destroy(true);
             }, null);
             emitters.add(emitter);
-            
-            if (!game.input.keyboard.isDown(Phaser.KeyCode.W)) {
+
+            if (!game.input.keyboard.isDown(Phaser.KeyCode.UP)) {
                 let hitGroundSound = game.add.audio('landing');
                 hitGroundSound.volume = 0.1  * optionsData.master * optionsData.soundFX;
                 hitGroundSound.allowMultiple = false;
                 hitGroundSound.play();
             }
-            
+
         }
 
         // Fade out the particles over their lifespan
@@ -651,13 +651,13 @@ let Game = function (game, optionsData) {
         if (parseInt(loc.x) === movingToX && parseInt(loc.y) === movingToY) {
             obj.movementIndex = (movementIndex + 1) % movementList.length;
         } else {
-            obj.body.velocity.x = (loc.x < movingToX) * movingObjSpeed - 
+            obj.body.velocity.x = (loc.x < movingToX) * movingObjSpeed -
                                   (loc.x > movingToX) * movingObjSpeed;
-            obj.body.velocity.y = (loc.y < movingToY) * movingObjSpeed - 
+            obj.body.velocity.y = (loc.y < movingToY) * movingObjSpeed -
                                   (loc.y > movingToY) * movingObjSpeed;
         }
     }
-    
+
     function gravityEffectsOnObject(obj) {
         let xGravCoef = 0;
         let yGravCoef = 0;
@@ -688,7 +688,7 @@ let Game = function (game, optionsData) {
         obj.body.acceleration.y = -yGravCoef;
 
     }
-    
+
     function onPlayerDeath() {
         game.camera.setPosition(0,0);
 
@@ -700,20 +700,20 @@ let Game = function (game, optionsData) {
         }
 
     }
-    
+
     function onExit(obj, exit) {
         exitHandler.onExit(obj, exit, game, processExit);
     }
-    
+
     function processExit() {
-        
+
         updateLocalStorage();
 
         playerHasHitCheckpoint = false;
         clearLevel();
-        
+
         exitHandler.reset();
-        
+
         game.physics.arcade.isPaused = false;
         if (currentLevelNum + 1 === levelLoader.getLevelCount()) {
             game.state.start('win');
@@ -722,7 +722,7 @@ let Game = function (game, optionsData) {
             loadLevel();
         }
     }
-    
+
     function updateLocalStorage() {
         let levelList = game.cache.getText('levelList').split('\n');
         playerDataList = localStorage.getItem('user_progress');
@@ -746,13 +746,13 @@ let Game = function (game, optionsData) {
             playerStartX = checkpoint.x;
             playerStartY = checkpoint.y - 15;
             checkpoint.loadTexture('checkpointActivated');
-            
+
             let checkpointSound = game.add.audio('checkpointHit');
             checkpointSound.volume = .1 * optionsData.master * optionsData.soundFX;
             checkpointSound.play();
         }
     }
-    
+
     function quadraticEase(t, tmax) {
         return 1 - Math.pow(tmax - t, 2)/Math.pow(tmax, 2);
     }
@@ -760,7 +760,7 @@ let Game = function (game, optionsData) {
     function setLevel(lnum){
         currentLevelNum = lnum;
     }
-    
+
     return {
         preload: preload,
         create: create,

@@ -44,6 +44,7 @@ let Game = function (game, optionsData) {
 
     // Player movement
     let previous_velocity_y;
+
     // Player start position
     let playerStartX,
         playerStartY,
@@ -56,7 +57,7 @@ let Game = function (game, optionsData) {
     // Constants
 
     // Physics
-    const frictionCoef = 0.5;
+    const frictionCoef = 0.2;
     const groundAcceleration = 30;
     const airAcceleration = 5;
     const maxHorizontalVelocity = 250;

@@ -53,7 +53,7 @@ for(let i = 0; i < localLevelCount; i++) {
 $('.firstSection').hide();
 
 
-function editorStart() {
+function editorStart2() {
 
     let widthBlocks = $('#width')[0].value;
     let heightBlocks = $('#height')[0].value;
@@ -104,6 +104,28 @@ function editorStart() {
         }
     }
 
+
+    $('.sizeSelect').hide();
+    $('.firstSection').show();
+}
+
+function editorStart1() {
+    let widthBlocks = $('#width')[0].value;
+    let heightBlocks = $('#height')[0].value;
+    
+    width = widthBlocks * 30;
+    height = heightBlocks * 30;
+
+    let levelText = $('#levelText')[0].value;
+
+    if (levelText) {
+        level = levelText.split('\n');
+        let boundary = level[0].split(',');
+        width = parseInt(boundary[0]);
+        height = parseInt(boundary[1]);
+    }
+
+    makePhaserGame();
 
     $('.sizeSelect').hide();
     $('.firstSection').show();

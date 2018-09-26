@@ -3,6 +3,7 @@
     <head>
         
         <title>Level Editor</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <script type="text/javascript" src="node_modules/phaser/build/phaser.min.js"></script>
         <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
         <link rel="stylesheet" href="assets/style.css" type="text/css">
@@ -11,23 +12,27 @@
     
     <body>
         <div class="sizeSelect">
-            <p>
-                Make a new level or load a level with its raw text or a file of its raw text.
-            </p>
+            <p>Make a new level:</p>
             <label>Width:</label>
-            <input type="number" id="width" value="27"/>
-            <br />
+            <input type="number" id="width" value="27"/><br />
             <label>Height:</label>
-            <input type="number" id="height" value="14"/>
+            <input type="number" id="height" value="14"/><br />
+            <br />
+            <input type="button" onclick="editorStart1()" value="Start Creating!"/>
+            <br />
+            <p>*********************************************************</p>
+            <p>Load a level with its raw text or a file of its raw text:</p>
             <br />
             <label>Level Text:</label>
             <textarea id="levelText"></textarea>
             <br />
             <br />
-            <input type="button" onclick="editorStart()" value="Start Editing!"/>
+            
+            <input type="button" onclick="editorStart2()" value="Start Editing!"/>
 
             <input id="file" value="Upload File to Edit" type="file" />
             <p>
+                *********************************************************
                 <input type="button" onclick="loadFromLocal()" value="Load a previous level"/>
                 <select id="localLevels">
                     <option value="lastLevel">Previous level</option>

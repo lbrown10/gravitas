@@ -55,14 +55,7 @@ function editorStart2() {
     let widthBlocks = $('#width')[0].value;
     let heightBlocks = $('#height')[0].value;
 
-    if(localLevelId){
-        let file = localStorage.getItem(localLevelId);
-        level = file.split('\n');
-        let boundary = level[0].split(',');
-        width = parseInt(boundary[0]);
-        height = parseInt(boundary[1]);
-        makePhaserGame();
-    } else {
+
         let input = $('#file')[0];
         let reader = new FileReader();
 
@@ -97,7 +90,6 @@ function editorStart2() {
             }
             makePhaserGame();
         }
-    }
     $('.sizeSelect').hide();
     $('.firstSection').show();
 }
@@ -131,13 +123,24 @@ function makePhaserGame(){
     game.state.start('main');
 }
 
+//Loads a recently edited level from local storage. Currently not tested...
 function loadFromLocal(){
     localLevelId = $("#localLevels").val();
     if(localLevelId == "lastLevel" && !(localStorage.getItem("lastLevel"))){
         console.error("Err: no previous level to load");
         return;
     }
-    editorStart();
+        let widthBlocks = $('#width')[0].value;
+        let heightBlocks = $('#height')[0].value;
+        
+        let file = localStorage.getItem(localLevelId);
+        level = file.split('\n');
+        let boundary = level[0].split(',');
+        width = parseInt(boundary[0]);
+        height = parseInt(boundary[1]);
+        makePhaserGame();
+    $('.sizeSelect').hide();
+    $('.firstSection').show();
 }
 
 function preload() {
@@ -173,6 +176,8 @@ function draw_gridlines(){
     }
 }
 
+//This function changes the editor from the opening screen to the actual edit mode.
+//Primarily, it builds up the level to user specifications.
 function create() {
     game.stage.backgroundColor = '#6970db';
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -188,6 +193,7 @@ function create() {
 
     draw_gridlines()
     
+    //Create groups for all objects of same type
     walls = game.add.group();
     wall_moves = game.add.group();
     gravObj_offs = game.add.group();
@@ -199,9 +205,10 @@ function create() {
     checkpoints = game.add.group();
     exits = game.add.group();
 
-    
+    //Here we load in all previously established objects in the level
     if (level) {
         for (let i = 2; i < level.length; i++) {
+            console.log("object "+i+" is: "+level[i]);
             let element = level[i];
             let objectInfo = element.split(',');
             let objectName = objectInfo[0];
@@ -331,7 +338,7 @@ function create() {
             obj.input.boundsRect = bounds;
         }  
     } else {
-        // Make walls around edges
+        // In case of new level, Make walls around edges
         for (let i = blockHalfSize; i <= width; i += blockFullSize){
             makeWall(i, blockHalfSize);
             makeWall(i, height - blockHalfSize);
@@ -662,39 +669,39 @@ function expand_level_up() {
     }
     for (let i = 0; i < wall_moves.children.length; i++) {
         let current_obj = wall_moves.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < gravObj_offs.children.length; i++) {
         let current_obj = gravObj_offs.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < gravObj_ons.children.length; i++) {
         let current_obj = gravObj_ons.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < gravObj_fluxes.children.length; i++) {
         let current_obj = gravObj_fluxes.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < gravObj_movers.children.length; i++) {
         let current_obj = gravObj_movers.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < gravObj_moveFluxes.children.length; i++) {
         let current_obj = gravObj_moveFluxes.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < shockers.children.length; i++) {
         let current_obj = shockers.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < checkpoints.children.length; i++) {
         let current_obj = checkpoints.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }
     for (let i = 0; i < exits.children.length; i++) {
         let current_obj = exits.children[i];
-        current_obj.y = current_obj.x+30;
+        current_obj.y = current_obj.y+30;
     }  
     player_start.y = player_start.y+30;
     

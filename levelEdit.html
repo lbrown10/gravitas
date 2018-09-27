@@ -11,6 +11,7 @@
     
     
     <body>
+        <h1 style="text-align: center">Gravitas Level Editor</h1>
         <div class="sizeSelect">
             <p>Make a new level:</p>
             <label>Width:</label>
@@ -46,16 +47,19 @@
             </p>
 
             <div class="ui_panel">
-                <input class="adders" type="button" id="wall" value="Add Walls" />
-                <input class="adders" type="button" id="wall_move" value="Add Moving Platforms" />
-                <input class="adders" type="button" id="gravObj_off" value="Add Off Attractors" />
-                <input class="adders" type="button" id="gravObj_on" value="Add On Attractors" />
-                <input class="adders" type="button" id="shocker" value="Add Electricity" />
-                <input class="adders" type="button" id="checkpoint" value="Add Checkpoints" />
-                <input class="adders" type="button" id="exit" value="Add Exits" />
-
                 <input type="button" id="display" value="Get String">
                 <input type="button" id="zoom" value="Zoom Out" />
+                <input type="button" onclick="expand_level_up()" id="expand_up" value="Expand Level Upward" />
+                <input type="button" onclick="expand_level_right()" id="expand_right" value="Expand Level Rightward" />
+                <br />
+                <br />
+                <input class="adders" type="button" id="wall" value="Add Walls" />
+                <input class="adders" type="button" id="wall_move" value="Add Moving Platforms" />
+                <input class="adders" type="button" id="shocker" value="Add Electricity" />
+                <input class="adders" type="button" id="gravObj_on" value="Add On Attractors" />
+                <input class="adders" type="button" id="gravObj_off" value="Add Off Attractors" />
+                <input class="adders" type="button" id="checkpoint" value="Add Checkpoints" />
+                <input class="adders" type="button" id="exit" value="Add Exits" />
                 <div class="break"> </div>
                 <div class="list">
                     <input class="adders" type="button" id="gravObj_flux" value="Add Fluctuating Attractors" />
@@ -71,7 +75,6 @@
                 <input id="playerGrav" type="number" min="0" max="2500" value="2500" />
                 </div>
             </div>
-        </div>
             
         <p id="response" style="white-space: pre-wrap"></p>
         <script src="editor/editor.js"></script>

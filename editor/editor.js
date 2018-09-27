@@ -32,7 +32,6 @@ let blockFullSize=30;
 let blockHalfSize=blockFullSize/2;
 let blockQuarterSize=blockHalfSize/2;
 
-
 // Load locally stored levels
 if(localStorage.getItem("localLevels") == null){
     console.warn("No local level storage found");
@@ -49,12 +48,10 @@ for(let i = 0; i < localLevelCount; i++) {
     selector.append('<option ' + ' value="custom' + i + '">' + "Custom level " + (i+1) + '</option>');
 }
 
-
 $('.firstSection').hide();
 
-
+//Loads in an existing level to change
 function editorStart2() {
-
     let widthBlocks = $('#width')[0].value;
     let heightBlocks = $('#height')[0].value;
 
@@ -87,7 +84,6 @@ function editorStart2() {
                 }
             });
         } else {
-
             width = widthBlocks * 30;
             height = heightBlocks * 30;
 
@@ -99,16 +95,14 @@ function editorStart2() {
                 width = parseInt(boundary[0]);
                 height = parseInt(boundary[1]);
             }
-
             makePhaserGame();
         }
     }
-
-
     $('.sizeSelect').hide();
     $('.firstSection').show();
 }
 
+//Starts a new blank level
 function editorStart1() {
     let widthBlocks = $('#width')[0].value;
     let heightBlocks = $('#height')[0].value;
@@ -156,20 +150,7 @@ function preload() {
     game.load.image('path', 'assets/art/path.png');
 }
 
-function create() {
-    game.stage.backgroundColor = '#6970db';
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.world.enableBody = true;
-    
-    game.canvas.oncontextmenu = function (e) {
-        e.preventDefault(); 
-    }
-    
-    bounds = new Phaser.Rectangle(0,0,width, height);
-    graphic = game.add.graphics(bounds.x, bounds.y);
-    graphic.drawRect(0, 0, bounds.width, bounds.height);
-
-
+function draw_gridlines(){
     // Light gridlines at halfway point
     graphic.lineStyle(1, Phaser.Color.hexToRGB("#939dff"), 1);
     for(let x=blockHalfSize; x<width; x+=blockFullSize){
@@ -190,6 +171,22 @@ function create() {
         graphic.moveTo(0,y);
         graphic.lineTo(width, y);
     }
+}
+
+function create() {
+    game.stage.backgroundColor = '#6970db';
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.world.enableBody = true;
+    
+    game.canvas.oncontextmenu = function (e) {
+        e.preventDefault(); 
+    }
+    
+    bounds = new Phaser.Rectangle(0,0,width, height);
+    graphic = game.add.graphics(bounds.x, bounds.y);
+    graphic.drawRect(0, 0, bounds.width, bounds.height);
+
+    draw_gridlines()
     
     walls = game.add.group();
     wall_moves = game.add.group();
@@ -647,6 +644,61 @@ function deleteObject(obj) {
         clickedObj = null;
     }
     
+}
+
+function expand_level_right() {
+    width = width + 30;
+    game.scale.setGameSize(width, height)
+    draw_gridlines();
+}
+ 
+function expand_level_up() {
+    height = height + 30;
+    game.scale.setGameSize(width, height)
+    
+    for (let i = 0; i < walls.children.length; i++) {
+        let current_obj = walls.children[i];
+        current_obj.y = current_obj.y+30;
+    }
+    for (let i = 0; i < wall_moves.children.length; i++) {
+        let current_obj = wall_moves.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < gravObj_offs.children.length; i++) {
+        let current_obj = gravObj_offs.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < gravObj_ons.children.length; i++) {
+        let current_obj = gravObj_ons.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < gravObj_fluxes.children.length; i++) {
+        let current_obj = gravObj_fluxes.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < gravObj_movers.children.length; i++) {
+        let current_obj = gravObj_movers.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < gravObj_moveFluxes.children.length; i++) {
+        let current_obj = gravObj_moveFluxes.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < shockers.children.length; i++) {
+        let current_obj = shockers.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < checkpoints.children.length; i++) {
+        let current_obj = checkpoints.children[i];
+        current_obj.y = current_obj.x+30;
+    }
+    for (let i = 0; i < exits.children.length; i++) {
+        let current_obj = exits.children[i];
+        current_obj.y = current_obj.x+30;
+    }  
+    player_start.y = player_start.y+30;
+    
+    draw_gridlines();
 }
 
 function update() {

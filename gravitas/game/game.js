@@ -501,7 +501,7 @@ let Game = function (game, optionsData) {
         } else {
             framesSincePressingUp ++;
         }
-        if (game.input.keyboard.isDown(Phaser.KeyCode.DOWN)) {
+        if (game.input.keyboard.isDown(Phaser.KeyCode.DOWN) || game.input.keyboard.isDown(Phaser.KeyCode.S)) {
             let obj = selectableGravObjects[currentHighlightedObjIndex];
             if (obj) {
                 if(framesSincePressingDown < 7 && framesSincePressingDown > 0){

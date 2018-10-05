@@ -59,7 +59,7 @@ let Game = function (game, optionsData) {
     // Physics
     const frictionCoef = 0.2;
     const groundAcceleration = 30;
-    const airAcceleration = 5;
+    const airAcceleration = 10;
     const maxHorizontalVelocity = 250;
     const millisecondsPerFrame = 100/6;
     const movingObjSpeed = 30;
@@ -486,7 +486,7 @@ let Game = function (game, optionsData) {
             }
             leftKeyWasPressed = false;
         }
-        if (game.input.keyboard.isDown(Phaser.KeyCode.UP)) {
+        if (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
             let obj = selectableGravObjects[currentHighlightedObjIndex];
             if (obj) {
                 if(framesSincePressingUp < 7 && framesSincePressingUp > 0){
@@ -533,13 +533,13 @@ let Game = function (game, optionsData) {
     }
 
     function doPlayerMovement(){
-        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+        if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.KeyCode.A)) {
             if (player.body.touching.down && !jumpHandler.recentlyJumped()) {
                 player.body.velocity.x = Math.max(-maxHorizontalVelocity, player.body.velocity.x - groundAcceleration);
             } else {
                 player.body.velocity.x -= airAcceleration;
             }
-        } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+        } else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.KeyCode.D)) {
             if (player.body.touching.down && !jumpHandler.recentlyJumped()) {
                 player.body.velocity.x = Math.min(maxHorizontalVelocity, player.body.velocity.x + groundAcceleration);
             } else {
@@ -581,7 +581,7 @@ let Game = function (game, optionsData) {
             }, null);
             emitters.add(emitter);
 
-            if (!game.input.keyboard.isDown(Phaser.KeyCode.UP)) {
+            if (!game.input.keyboard.isDown(Phaser.KeyCode.UP || !game.input.keyboard.isDown(Phaser.KeyCode.W))) {
                 let hitGroundSound = game.add.audio('landing');
                 hitGroundSound.volume = 0.1  * optionsData.master * optionsData.soundFX;
                 hitGroundSound.allowMultiple = false;

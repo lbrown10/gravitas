@@ -16,7 +16,7 @@ let JumpHandler = function(optionsData) {
     }
 
     function doJumpPhysics(game, player) {
-        if (game.input.keyboard.isDown(Phaser.KeyCode.UP) && player.isTouchingBottom && player.body.touching.down && ! player.isTouchingTop && ! this.isJumping) {
+        if ((game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) && player.isTouchingBottom && player.body.touching.down && ! player.isTouchingTop && ! this.isJumping) {
             player.body.velocity.y = -jumpVelocity;
             jumpCount = 0;
             this.isJumping = true;
@@ -36,7 +36,7 @@ let JumpHandler = function(optionsData) {
         }
         //Let user jump higher if they hold the button down
         if (jumpCount < maxJumpFrames) {
-            if (game.input.keyboard.isDown(Phaser.KeyCode.UP)) {
+            if (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
                 player.body.velocity.y -= jumpVelocity/(maxJumpFrames - 3)
             } else {
                 jumpCount = maxJumpFrames;

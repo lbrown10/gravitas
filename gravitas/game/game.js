@@ -268,10 +268,10 @@ let Game = function (game, optionsData) {
         setupPauseButton();
 
         game.input.keyboard.onUpCallback = function (event) {
-            if (event.keyCode === Phaser.Keyboard.RIGHT) {
+            if (event.keyCode === Phaser.Keyboard.RIGHT || event.keyCode === Phaser.KeyCode.D) {
                 rightKeyWasPressed = true;
             }
-            if (event.keyCode === Phaser.Keyboard.LEFT) {
+            if (event.keyCode === Phaser.Keyboard.LEFT || event.keyCode === Phaser.KeyCode.A) {
                 leftKeyWasPressed = true;
             }
             if (event.keyCode === Phaser.KeyCode.ESC) {

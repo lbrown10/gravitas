@@ -59,7 +59,7 @@ let Game = function (game, optionsData) {
     // Physics
     const frictionCoef = 0.2;
     const groundAcceleration = 30;
-    const airAcceleration = 10;
+    const airAcceleration = 5;
     const maxHorizontalVelocity = 250;
     const millisecondsPerFrame = 100/6;
     const movingObjSpeed = 30;

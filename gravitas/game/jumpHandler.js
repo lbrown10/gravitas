@@ -22,10 +22,10 @@ let JumpHandler = function(optionsData) {
             this.isJumping = true;
             // If you're trying to go in a direction opposite the one you're going,
             //      you kick off the ground to change direction quickly
-            if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && player.body.velocity.x > 0){
+            if((game.input.keyboard.isDown(Phaser.Keyboard.LEFT) || game.input.keyboard.isDown(Phaser.KeyCode.A)) && player.body.velocity.x > 0){
                     player.body.velocity.x *=-0.5;
             }
-            if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && player.body.velocity.x < 0){
+            if((game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) || game.input.keyboard.isDown(Phaser.KeyCode.D)) && player.body.velocity.x < 0){
                 player.body.velocity.x *=-0.5;
             }
 
@@ -36,7 +36,7 @@ let JumpHandler = function(optionsData) {
         }
         //Let user jump higher if they hold the button down
         if (jumpCount < maxJumpFrames) {
-            if (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
+            if ((game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
                 player.body.velocity.y -= jumpVelocity/(maxJumpFrames - 3)
             } else {
                 jumpCount = maxJumpFrames;

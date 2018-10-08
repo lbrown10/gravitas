@@ -121,10 +121,7 @@ wall,255,795
 wall,225,795
 wall,195,735
 wall,165,735
-wall,135,735
-wall,105,735
-wall,135,675
-wall,165,675
+wall,165,705
 wall,225,645
 wall,255,645
 wall,285,645
@@ -168,6 +165,9 @@ wall,465,495
 wall,465,525
 wall,555,495
 wall,585,495
+wall,705,465
+wall,705,495
+wall,135,705
 shocker,735,855
 shocker,675,855
 shocker,645,855

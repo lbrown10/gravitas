@@ -220,7 +220,7 @@ shocker,645,585
 shocker,735,585
 gravObj_off,645,375,0,300000
 gravObj_off,495,615,0,300000
-checkpoint,495,555
+checkpoint,495,540
 exit,45,15
 tutorial_gravity_select,570,450
 player,832.5,862.5

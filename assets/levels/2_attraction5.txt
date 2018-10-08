@@ -324,8 +324,8 @@ wall_move,75,495,75#495-75#315
 wall_move,45,495,45#495-45#315
 wall_move,495,45,495#45-495#165
 wall_move,525,45,525#45-525#165
-checkpoint,675,585
-checkpoint,375,285
+checkpoint,675,570
+checkpoint,375,270
 exit,495,15
 exit,525,15
 player,37.5,757.5

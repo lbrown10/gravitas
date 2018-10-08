@@ -57,7 +57,7 @@ let Game = function (game, optionsData) {
     // Constants
 
     // Physics
-    const frictionCoef = 0.2;
+    const frictionCoef = 0.5;
     const groundAcceleration = 30;
     const airAcceleration = 5;
     const maxHorizontalVelocity = 250;

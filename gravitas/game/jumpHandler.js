@@ -1,5 +1,6 @@
 let JumpHandler = function(optionsData) {
     let isJumping = false;
+    let jumpPending;
     let jumpCount = 0;
     let lastTwoJumpFrames = [false, false];
 
@@ -15,8 +16,12 @@ let JumpHandler = function(optionsData) {
         return (lastTwoJumpFrames[0] || lastTwoJumpFrames[1]);
     }
 
+    function userRequestedJump() {
+      this.jumpPending = true;
+    }
+
     function doJumpPhysics(game, player) {
-        if ((game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) && player.isTouchingBottom && player.body.touching.down && ! player.isTouchingTop && ! this.isJumping) {
+        if (this.jumpPending && player.isTouchingBottom && player.body.touching.down && ! player.isTouchingTop && ! this.isJumping) {
             player.body.velocity.y = -jumpVelocity;
             jumpCount = 0;
             this.isJumping = true;
@@ -32,24 +37,23 @@ let JumpHandler = function(optionsData) {
             let jumpSound = game.add.audio('jump4');
             jumpSound.volume = 0.1 * optionsData.master * optionsData.soundFX;
             jumpSound.play();
-
         }
+        this.jumpPending = false;
+
         //Let user jump higher if they hold the button down
         if (jumpCount < maxJumpFrames) {
-            if ((game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
-                player.body.velocity.y -= jumpVelocity/(maxJumpFrames - 3)
+            if (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
+                player.body.velocity.y -= jumpVelocity/(maxJumpFrames - 3);
             } else {
                 jumpCount = maxJumpFrames;
             }
-
         }
-
         jumpCount += 1;
     }
 
-
     return {
         isJumping: isJumping,
+        userRequestedJump: userRequestedJump,
         update: update,
         recentlyJumped: recentlyJumped,
         doJumpPhysics: doJumpPhysics,

@@ -20,6 +20,7 @@ let Game = function (game, optionsData) {
 
     let levelLoader;
     let currentLevelNum;
+    let deathCount;
 
     // State info
     let pauseBtn;
@@ -126,6 +127,14 @@ let Game = function (game, optionsData) {
             }
 
         }, null);
+    }
+
+    function setupJumpButton() {
+      // (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W))
+      jumpBtn = game.input.keyboard.addKey(Phaser.KeyCode.UP); // ADD 'W' FUNCTIONALITY
+      jumpBtn.onDown.add(function() {
+        jumpHandler.userRequestedJump();
+      });
     }
 
     function handleGravObjSelection() {
@@ -266,6 +275,7 @@ let Game = function (game, optionsData) {
         loadLevel();
 
         setupPauseButton();
+        setupJumpButton();
 
         game.input.keyboard.onUpCallback = function (event) {
             if (event.keyCode === Phaser.Keyboard.RIGHT || event.keyCode === Phaser.KeyCode.D) {
@@ -294,6 +304,8 @@ let Game = function (game, optionsData) {
         framesSincePressingDown = 0;
         framesSincePressingUp = 0;
         framesHoldingR = 0;
+
+        deathCount = 0;
     }
 
     function update() {

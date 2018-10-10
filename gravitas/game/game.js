@@ -230,7 +230,8 @@ let Game = function (game, optionsData) {
         game.load.audio('frozenTime', 'assets/audio/frozenTime.mp3');
 
         // Animated sprites
-        game.load.spritesheet('shocker', 'assets/art/electricity_sprites.png', 30, 30, 3);
+//        game.load.spritesheet('shocker', 'assets/art/fire_sprites.png', 51.6666666666667, 65, 12);
+        game.load.spritesheet('shocker', 'assets/art/electricity_sprites2.png', 30, 30, 3);
 
         levelLoader = new LevelLoader(game);
         levelLoader.setup();

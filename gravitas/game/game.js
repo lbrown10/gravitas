@@ -131,8 +131,10 @@ let Game = function (game, optionsData) {
 
     function setupJumpButton() {
       // (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W))
-      jumpBtn = game.input.keyboard.addKey(Phaser.KeyCode.UP); // ADD 'W' FUNCTIONALITY
-      jumpBtn.onDown.add(function() {
+      game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
+        jumpHandler.userRequestedJump();
+      });
+      game.input.keyboard.addKey(Phaser.KeyCode.W).onDown.add(function() {
         jumpHandler.userRequestedJump();
       });
     }

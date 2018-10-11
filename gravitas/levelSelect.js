@@ -67,7 +67,7 @@ let LevelSelect = function (game, gameState) {
         let offsetX = (game.width - levelWidth)/2;
         let offsetY = (game.height - levelHeight)/2 + 60;
         
-        let associatedLevel = 0;
+        let associatedLevel = 1;
         for (let i = 0; i < thumbCols; i++) {
             for (let j = 0; j < thumbRows; j++) {
                 if (associatedLevel != levelCount) {
@@ -76,12 +76,12 @@ let LevelSelect = function (game, gameState) {
                     
                     if (playerDataList[associatedLevel] == 0) {
                         // level is unlocked
-                        button = game.add.button(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), 'icon' + (associatedLevel + 1), function(){
+                        button = game.add.button(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), 'icon' + (associatedLevel), function(){
                             clearLevel();
                             gameState.setLevel(button.associatedLevel);
                             game.state.start('game');
                         });
-                        let text = game.add.text(offsetX + j * (thumbWidth + thumbSpacing) + 25 - 20 * (associatedLevel + 1> 9), offsetY + i * (thumbHeight + thumbSpacing), associatedLevel + 1, {fill: "#000", fontSize: '70px'});
+                        let text = game.add.text(offsetX + j * (thumbWidth + thumbSpacing) + 25 - 20 * (associatedLevel> 9), offsetY + i * (thumbHeight + thumbSpacing), associatedLevel, {fill: "#000", fontSize: '70px'});
                         texts.add(text);
                     } else {
                         // level is locked

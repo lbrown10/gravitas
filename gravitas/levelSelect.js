@@ -8,6 +8,7 @@ let LevelSelect = function (game, gameState) {
         thumbSpacing = 20,
         levelWidth = thumbWidth * thumbRows + thumbSpacing * (thumbRows - 1),
         levelHeight = thumbHeight * thumbCols + thumbSpacing * (thumbCols - 1),
+        currentPage = 0,
         playerDataList = [],
         buttons,
         levelCount;
@@ -55,28 +56,66 @@ let LevelSelect = function (game, gameState) {
         background.anchor.set(0.5, 0.5);
         background.immovable = true;
         
+        controlButtons = game.add.group();
         buttons = game.add.group();
         texts = game.add.group();
         
         let back = game.add.button(45, 56, 'backButton', function() {
+            clearLevel();
             game.state.start('menu');
         });
-        buttons.add(back);
+        controlButtons.add(back);
         
+        renderPage(currentPage);
+        
+        if (levelCount > thumbCols * thumbRows) {
+            let down = game.add.button((game.width - levelWidth)/2 + (thumbWidth + thumbSpacing) * thumbRows + 10, (game.height - levelHeight)/2 + 10 + thumbCols * (thumbHeight + thumbSpacing), 'backButton', function() {
+                currentPage = Math.min(Math.floor(levelCount/thumbRows) - 1, currentPage + 1);
+                renderPage(currentPage);
+            });
+            down.angle = -90;
+            controlButtons.add(down);
+            
+            let up = game.add.button((game.width - levelWidth)/2 + (thumbWidth + thumbSpacing) * thumbRows + 40, (game.height - levelHeight)/2 - 40 + (thumbCols - 1) * (thumbHeight + thumbSpacing), 'backButton', function() {
+                currentPage = Math.max(0, currentPage - 1);
+                
+                renderPage(currentPage);
+            });
+            up.angle = 90;
+            controlButtons.add(up);
+        }
+    }
+    
+    function renderPage(pageNum) {
         // horizontal offset to have lock thumbnails horizontally centered in the page
         let offsetX = (game.width - levelWidth)/2;
         let offsetY = (game.height - levelHeight)/2 + 60;
         
-        let associatedLevel = 1;
+        buttons.forEach(function(ele) {
+            ele.kill();
+        });
+        texts.forEach(function(ele) {
+            ele.kill();
+        });
+        
+        currCount = levelCount;
+        currDataList = playerDataList;
+        
+        controlButtons.visible = true;
+        
+        let associatedLevel = thumbRows * pageNum+1;
         for (let i = 0; i < thumbCols; i++) {
             for (let j = 0; j < thumbRows; j++) {
-                if (associatedLevel != levelCount) {
+                if (associatedLevel != currCount) {
                     
                     let button;
                     
-                    if (playerDataList[associatedLevel] == 0) {
+                    if (currDataList[associatedLevel] == 0) {
+                        
+                        iconPrefix = 'icon';
+                        
                         // level is unlocked
-                        button = game.add.button(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), 'icon' + (associatedLevel), function(){
+                        button = game.add.button(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), iconPrefix + (associatedLevel), function(){
                             clearLevel();
                             gameState.setLevel(button.associatedLevel);
                             game.state.start('game');
@@ -85,9 +124,7 @@ let LevelSelect = function (game, gameState) {
                         texts.add(text);
                     } else {
                         // level is locked
-                        button = game.add.button(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), 'lockedThumbnail', function() {
-                            alert("This level is locked until completed.");
-                        });
+                        button = game.add.sprite(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), 'lockedThumbnail');
                     }
                     button.associatedLevel = associatedLevel;
                     buttons.add(button);

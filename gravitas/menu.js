@@ -1,11 +1,12 @@
 let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelectFromMenuCallback) {
     
+    
     //game.state.add('levelselect', {preload: levelSelect.preload, create: levelSelect.create, update: levelSelect.onLevelSelected});
 
     let startBtn, levelSelectBtn, optionsButton, background, flame1, flame2, playerDataList;
     let fadeIn = true;
     let optionsHandler;
-
+    
     function clearLevel() {
         background.kill();
         startBtn.kill();
@@ -47,12 +48,20 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         let horizSpacing = 95;
         startBtn = game.add.button(game.width/2 - horizOffset, game.height/2 + vertOffset, 'startBtn', onStartButtonPush);
         startBtn.anchor.set(0.5, 0.5);
+        startBtn.inputEnabled = true;
+        startBtn.alpha = 0.6;
 
         levelSelectBtn = game.add.button(game.width/2 - horizOffset, game.height/2 + vertOffset + horizSpacing, 'levelSelectBtn', onLevelSelectButtonPush, null);
         levelSelectBtn.anchor.set(0.5, 0.5);
+        levelSelectBtn.inputEnabled = true;
+        levelSelectBtn.alpha = 0.6;
+
         
         optionsButton = game.add.button(game.width - 37, game.height - 30, 'optionsButton', onOptionsPush, null);
         optionsButton.anchor.set(.5, .5);
+        optionsButton.inputEnabled = true;
+        
+
 
         if (fadeIn) {
             game.camera.flash(0x000000, 1500);
@@ -80,7 +89,26 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         flame2.animations.add('flicker2');
         flame2.animations.play('flicker2', 20, true);
         */
+        startBtn.onInputOver.add(startHighlight, this);
+        startBtn.onInputOut.add(startUnhighlight, this);
+        levelSelectBtn.onInputOver.add(lvlHighlight, this);
+        levelSelectBtn.onInputOut.add(lvlUnhighlight, this);
     }
+    
+    //Button Highlights
+    function startHighlight() {
+        startBtn.alpha = 1;
+    }
+    function startUnhighlight() {
+        startBtn.alpha = 0.6;
+    }
+    function lvlHighlight() {
+        levelSelectBtn.alpha = 1;
+    }
+    function lvlUnhighlight() {
+        levelSelectBtn.alpha = 0.6;
+    }
+    
     
     function renewProgressLocalStorage() {
         let levelList = game.cache.getText('levelList').split('\n');
@@ -89,6 +117,19 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
             playerDataList[i] = 1;
         }
         localStorage.setItem('user_progress', playerDataList);
+    }
+    
+    function Myupdate() {
+        if (startBtn.input.pointerOver()){
+            startBtn.alpha = 0.5;
+        }else{
+            startBtn.alpha = 1;
+        }
+        if (startBtn.input.pointerOver()){
+            startBtn.alpha = 0.5;
+        }else{
+            startBtn.alpha = 1;
+        }
     }
 
     function onStartButtonPush() {

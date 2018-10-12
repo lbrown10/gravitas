@@ -132,10 +132,14 @@ let Game = function (game, optionsData) {
     function setupJumpButton() {
       // (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W))
       game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
-        jumpHandler.userRequestedJump();
+        if (! game.physics.arcade.isPaused) {
+            jumpHandler.userRequestedJump();
+        }
       });
       game.input.keyboard.addKey(Phaser.KeyCode.W).onDown.add(function() {
-        jumpHandler.userRequestedJump();
+        if (! game.physics.arcade.isPaused) {
+            jumpHandler.userRequestedJump();
+        }
       });
     }
 

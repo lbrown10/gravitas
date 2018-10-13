@@ -122,16 +122,17 @@ let LevelSelect = function (game, gameState) {
                         });
                         let text = game.add.text(offsetX + j * (thumbWidth + thumbSpacing) + 25 - 20 * (associatedLevel> 9), offsetY + i * (thumbHeight + thumbSpacing), associatedLevel, {fill: "#000", fontSize: '70px'});
                         texts.add(text);
-                        button.alpha=0.6;
                     } else {
                         // level is locked
                         button = game.add.sprite(offsetX + j * (thumbWidth + thumbSpacing), offsetY + i * (thumbHeight + thumbSpacing), 'lockedThumbnail');
-                        button.alpha=0.6;
                     }
+                    button.alpha=0.6;
                     button.associatedLevel = associatedLevel;
                     buttons.add(button);
-                    button.onInputOver.add(highlightButton, this);
-                    button.onInputOut.add(unhighlightButton, this);
+                    if (currDataList[associatedLevel] == 0) {
+                        button.onInputOver.add(highlightButton, this);
+                        button.onInputOut.add(unhighlightButton, this);
+                    }
                     associatedLevel++;
                 }
             } 

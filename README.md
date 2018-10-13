@@ -2,7 +2,7 @@
 
 Gravitas is a platformer that aims to provide an intuitive sense of gravitational dynamics. The main functionality is to allow the player to move and jump, while also manipulating the gravitational pull of objects to traverse the environment.
 
-Our app can be found [here](https://mattdavids.github.io/strong-attractor/). It currently supports Chrome, Firefox, and Safari.
+It currently supports Chrome, Firefox, and Safari.
 
 ## Getting Started
 

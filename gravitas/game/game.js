@@ -91,6 +91,7 @@ let Game = function (game, optionsData) {
         unpackObjects(levelObjects);
 
         setLayerOrder();
+//        death_readout.style.fontt.fill ="#0000ff";
     }
 
     function setLayerOrder() {
@@ -126,7 +127,6 @@ let Game = function (game, optionsData) {
                     freezeHandler.startFreeze(game);
                 }
             }
-
         }, null);
     }
 
@@ -324,9 +324,6 @@ let Game = function (game, optionsData) {
         // Move the player in a parabolic death animation when dead,
         // Reset the game when the player falls below the game window
         if (deathHandler.deathFall) {
-            console.warn(deathCount);
-            death_readout.style.fill ="#ff0000";
-            console.log(death_readout.style.fill);
             deathHandler.doDeathFallAnimation(game, player, blockSize, onPlayerDeath);
         }
 
@@ -440,7 +437,7 @@ let Game = function (game, optionsData) {
     }
 
     function resetLevel() {
-
+        //Hanles resetting the player to last checkpoint upon death, as well as resetting all grav & moving blocks
         player.destroy();
         freezeHandler.killArrow();
         player = levelLoader.makePlayer(playerStartX, playerStartY, playerGrav);
@@ -455,11 +452,11 @@ let Game = function (game, optionsData) {
             obj.y = obj.startingY;
             obj.movementIndex = 0;
         });
-
         setLayerOrder();
     }
 
     function clearLevel() {
+        //Destroys eveything in the current level
         player.kill();
         walls.destroy();
         shockers.destroy();
@@ -720,16 +717,20 @@ let Game = function (game, optionsData) {
     }
 
     function onPlayerDeath() {
+        //Handles resetting levels after player is dead
         game.camera.setPosition(0,0);
         deathCount +=1;
         death_readout.text = deathCount;
-        death_readout.style.fill ="#ffffff";
+        
 
         if(playerHasHitCheckpoint) {
             resetLevel();
         } else {
             clearLevel();
             loadLevel();
+            death_icon.bringToTop();
+            death_readout.bringToTop();
+            
         }
         
     }
@@ -739,24 +740,29 @@ let Game = function (game, optionsData) {
     }
 
     function processExit() {
-
+        //Handles the player reaching the end of a level
         updateLocalStorage();
 
         playerHasHitCheckpoint = false;
         clearLevel();
 
+        death_readout.style.fill ="#ffffff";//WHY DOES THIS DO NOTHING!!!!!! AAAARRRRRGGGHHHH!!!!!!!!!!
+        
         exitHandler.reset();
-
+        
         game.physics.arcade.isPaused = false;
         if (currentLevelNum + 1 === levelLoader.getLevelCount()) {
             game.state.start('win');
         } else {
             currentLevelNum++;
             loadLevel();
+            death_icon.bringToTop();
+            death_readout.bringToTop();
         }
     }
 
     function updateLocalStorage() {
+        //Handles the local save data
         let levelList = game.cache.getText('levelList').split('\n');
         playerDataList = localStorage.getItem('user_progress');
         if (playerDataList == null) {

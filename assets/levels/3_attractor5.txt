@@ -298,7 +298,8 @@ wall_move,765,405,765#405-825#405
 wall_move,795,405,795#405-855#405
 wall_move,825,345,825#345-765#345
 wall_move,855,345,855#345-795#345
-checkpoint,465,240
-checkpoint,855,540
+checkpoint,405,675
+checkpoint,825,585
+checkpoint,450,255
 exit,135,15
 player,52.5,52.5

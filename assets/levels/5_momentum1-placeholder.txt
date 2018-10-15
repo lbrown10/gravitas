@@ -206,4 +206,5 @@ shocker,1515,375
 shocker,1545,375
 shocker,1575,375
 exit,1785,345
+exit,345,345
 player,52.5,337.5

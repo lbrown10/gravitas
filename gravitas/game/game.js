@@ -494,7 +494,6 @@ let Game = function (game, optionsData) {
         if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
             game.physics.arcade.overlap(player, shockers, function() {
-                death_readout.style.fill ="#ff0000";
                 deathHandler.deathAnimation(game, player);}, null, null);
         }
     }
@@ -720,8 +719,8 @@ let Game = function (game, optionsData) {
         //Handles resetting levels after player is dead
         game.camera.setPosition(0,0);
         deathCount +=1;
+        death_readout.style.fill ="#ff0000";
         death_readout.text = deathCount;
-        
 
         if(playerHasHitCheckpoint) {
             resetLevel();
@@ -729,10 +728,8 @@ let Game = function (game, optionsData) {
             clearLevel();
             loadLevel();
             death_icon.bringToTop();
-            death_readout.bringToTop();
-            
+            death_readout.bringToTop();   
         }
-        
     }
 
     function onExit(obj, exit) {
@@ -745,10 +742,10 @@ let Game = function (game, optionsData) {
 
         playerHasHitCheckpoint = false;
         clearLevel();
-
-        death_readout.style.fill ="#ffffff";//WHY DOES THIS DO NOTHING!!!!!! AAAARRRRRGGGHHHH!!!!!!!!!!
         
         exitHandler.reset();
+        
+        death_readout.style.fill ="#ffffff";//WHY DOES THIS DO NOTHING!!!!!! AAAARRRRRGGGHHHH!!!!!!!!!!
         
         game.physics.arcade.isPaused = false;
         if (currentLevelNum + 1 === levelLoader.getLevelCount()) {

@@ -133,12 +133,12 @@ let Game = function (game, optionsData) {
     function setupJumpButton() {
       // (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W))
       game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
-        if (! game.physics.arcade.isPaused) {
+        if (! game.physics.arcade.isPaused && !game.physics.arcade.isPaused) {
             jumpHandler.userRequestedJump();
         }
       });
       game.input.keyboard.addKey(Phaser.KeyCode.W).onDown.add(function() {
-        if (! game.physics.arcade.isPaused) {
+        if (! game.physics.arcade.isPaused && !game.physics.arcade.isPaused) {
             jumpHandler.userRequestedJump();
         }
       });
@@ -732,7 +732,7 @@ let Game = function (game, optionsData) {
             clearLevel();
             loadLevel();
             death_icon.bringToTop();
-            death_readout.bringToTop();   
+            death_readout.bringToTop();
         }
     }
 
@@ -746,11 +746,11 @@ let Game = function (game, optionsData) {
 
         playerHasHitCheckpoint = false;
         clearLevel();
-        
+
         exitHandler.reset();
-        
+
         death_readout.style.fill ="#ffffff";//WHY DOES THIS DO NOTHING!!!!!! AAAARRRRRGGGHHHH!!!!!!!!!!
-        
+
         game.physics.arcade.isPaused = false;
         if (currentLevelNum + 1 === levelLoader.getLevelCount()) {
             game.state.start('win');
@@ -809,5 +809,3 @@ let Game = function (game, optionsData) {
         setLevel: setLevel,
     };
 };
-
-

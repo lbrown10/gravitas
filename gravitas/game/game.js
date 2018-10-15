@@ -21,6 +21,7 @@ let Game = function (game, optionsData) {
     let levelLoader;
     let currentLevelNum;
     let deathCount;
+    let deathIcon;
 
     // State info
     let pauseBtn;
@@ -217,6 +218,7 @@ let Game = function (game, optionsData) {
         game.load.image('musicAudioLabel', 'assets/art/musicAudioLabel.png');
         game.load.image('soundFXAudioLabel', 'assets/art/soundFXAudioLabel.png');
         game.load.image('optionsLabel', 'assets/art/optionsLabel.png');
+        game.load.image('death_counter', 'assets/art/death_counter.png');
 
         // Background tile sprites
         for(let i=1; i<=7; i++){
@@ -308,13 +310,23 @@ let Game = function (game, optionsData) {
         framesSincePressingUp = 0;
         framesHoldingR = 0;
 
+        //death counter
         deathCount = 0;
+        death_icon = game.add.sprite(15, 15, 'death_counter');
+        death_readout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
+        death_icon.fixedToCamera = true;
+        death_readout.fixedToCamera = true;
+        death_icon.bringToTop();
+        death_readout.bringToTop();
     }
 
     function update() {
         // Move the player in a parabolic death animation when dead,
         // Reset the game when the player falls below the game window
         if (deathHandler.deathFall) {
+            console.warn(deathCount);
+            death_readout.style.fill ="#ff0000";
+            console.log(death_readout.style.fill);
             deathHandler.doDeathFallAnimation(game, player, blockSize, onPlayerDeath);
         }
 
@@ -484,7 +496,9 @@ let Game = function (game, optionsData) {
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
         if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
-            game.physics.arcade.overlap(player, shockers, function() {deathHandler.deathAnimation(game, player);}, null, null);
+            game.physics.arcade.overlap(player, shockers, function() {
+                death_readout.style.fill ="#ff0000";
+                deathHandler.deathAnimation(game, player);}, null, null);
         }
     }
 
@@ -707,6 +721,9 @@ let Game = function (game, optionsData) {
 
     function onPlayerDeath() {
         game.camera.setPosition(0,0);
+        deathCount +=1;
+        death_readout.text = deathCount;
+        death_readout.style.fill ="#ffffff";
 
         if(playerHasHitCheckpoint) {
             resetLevel();
@@ -714,7 +731,7 @@ let Game = function (game, optionsData) {
             clearLevel();
             loadLevel();
         }
-
+        
     }
 
     function onExit(obj, exit) {
@@ -785,3 +802,5 @@ let Game = function (game, optionsData) {
         setLevel: setLevel,
     };
 };
+
+

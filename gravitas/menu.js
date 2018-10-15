@@ -149,8 +149,7 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
 
     function onLevelSelectButtonPush() {
         clearLevel();
-        goToLevelSelectFromMenuCallback();
-        
+        goToLevelSelectFromMenuCallback();   
     }
 
     return {

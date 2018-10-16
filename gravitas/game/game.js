@@ -55,6 +55,7 @@ let Game = function (game, optionsData) {
     //Debug
     let skipPressed;
     let lastDzoneRect;
+    let doubleCheckDeadness;//Deals with making sure deaths don't double count
 
     // Constants
 
@@ -89,9 +90,7 @@ let Game = function (game, optionsData) {
     function loadLevel() {
         let levelObjects = levelLoader.loadLevel(currentLevelNum);
         unpackObjects(levelObjects);
-
         setLayerOrder();
-//        death_readout.style.fontt.fill ="#0000ff";
     }
 
     function setLayerOrder() {
@@ -102,7 +101,8 @@ let Game = function (game, optionsData) {
         game.world.bringToTop(gravCirclesTop);
         game.world.bringToTop(pauseGraphics);
         game.world.bringToTop(selectedObjGraphics);
-
+        
+        doubleCheckDeadness = false;//Have to reset this debug variable here, to insure the kill count only registers a new death after a load.
         freezeHandler.addArrow(game, player);
 
     }
@@ -222,7 +222,7 @@ let Game = function (game, optionsData) {
         game.load.image('musicAudioLabel', 'assets/art/musicAudioLabel.png');
         game.load.image('soundFXAudioLabel', 'assets/art/soundFXAudioLabel.png');
         game.load.image('optionsLabel', 'assets/art/optionsLabel.png');
-        game.load.image('death_counter', 'assets/art/death_counter.png');
+        game.load.image('deathCounter', 'assets/art/death_counter.png');
 
         // Background tile sprites
         for(let i=1; i<=7; i++){
@@ -316,12 +316,12 @@ let Game = function (game, optionsData) {
 
         //death counter
         deathCount = 0;
-        death_icon = game.add.sprite(15, 15, 'death_counter');
-        death_readout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
+        death_icon = game.add.sprite(15, 15, 'deathCounter');
+        deathReadout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
         death_icon.fixedToCamera = true;
-        death_readout.fixedToCamera = true;
+        deathReadout.fixedToCamera = true;
         death_icon.bringToTop();
-        death_readout.bringToTop();
+        deathReadout.bringToTop();
     }
 
     function update() {
@@ -441,7 +441,7 @@ let Game = function (game, optionsData) {
     }
 
     function resetLevel() {
-        //Hanles resetting the player to last checkpoint upon death, as well as resetting all grav & moving blocks
+        //Handles resetting the player to last checkpoint upon death, as well as resetting all grav & moving blocks
         player.destroy();
         freezeHandler.killArrow();
         player = levelLoader.makePlayer(playerStartX, playerStartY, playerGrav);
@@ -497,8 +497,18 @@ let Game = function (game, optionsData) {
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
         if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
+//            game.physics.arcade.overlap(player, shockers, function() {
+//            deathHandler.deathAnimation(game, player);}, null, null);
             game.physics.arcade.overlap(player, shockers, function() {
-                deathHandler.deathAnimation(game, player);}, null, null);
+                    deathHandler.deathAnimation(game, player);
+                    if (!doubleCheckDeadness){
+                        deathCount+=1;
+                        doubleCheckDeadness = true;
+                    }
+                    deathReadout.text = deathCount;
+                    deathReadout.addColor("#ff0000", 0);
+                    console.log(deathCount);
+                }, null, null);
         }
     }
 
@@ -722,9 +732,7 @@ let Game = function (game, optionsData) {
     function onPlayerDeath() {
         //Handles resetting levels after player is dead
         game.camera.setPosition(0,0);
-        deathCount +=1;
-        death_readout.style.fill ="#ff0000";
-        death_readout.text = deathCount;
+        deathReadout.addColor("#ffffff", 0);
 
         if(playerHasHitCheckpoint) {
             resetLevel();
@@ -732,7 +740,7 @@ let Game = function (game, optionsData) {
             clearLevel();
             loadLevel();
             death_icon.bringToTop();
-            death_readout.bringToTop();
+            deathReadout.bringToTop();
         }
     }
 
@@ -749,8 +757,6 @@ let Game = function (game, optionsData) {
 
         exitHandler.reset();
 
-        death_readout.style.fill ="#ffffff";//WHY DOES THIS DO NOTHING!!!!!! AAAARRRRRGGGHHHH!!!!!!!!!!
-
         game.physics.arcade.isPaused = false;
         if (currentLevelNum + 1 === levelLoader.getLevelCount()) {
             game.state.start('win');
@@ -758,7 +764,7 @@ let Game = function (game, optionsData) {
             currentLevelNum++;
             loadLevel();
             death_icon.bringToTop();
-            death_readout.bringToTop();
+            deathReadout.bringToTop();
         }
     }
 

@@ -237,9 +237,9 @@ wall_move,375,225,375#225-525#225-525#135
 wall_move,405,225,405#225-555#225-555#135
 gravObj_moveFlux,285,645,0,300000,285#645-645#645-645#315-285#315
 gravObj_moveFlux,645,315,0,300000,645#315-285#315-285#645-645#645
-checkpoint,765,840
-checkpoint,315,480
-checkpoint,645,480
-checkpoint,315,180
+checkpoint,765,810
+checkpoint,315,450
+checkpoint,645,450
+checkpoint,315,150
 exit,855,15
 player,50,840

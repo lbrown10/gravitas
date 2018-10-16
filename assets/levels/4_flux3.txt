@@ -251,7 +251,7 @@ gravObj_flux,435,465,0,300000
 wall_move,315,165,315#165-675#165
 wall_move,345,165,345#165-705#165
 wall_move,375,165,375#165-735#165
-checkpoint,795,495
-checkpoint,105,195
+checkpoint,795,465
+checkpoint,105,165
 exit,795,15
 player,67.5,847.5

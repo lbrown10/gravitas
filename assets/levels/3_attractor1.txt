@@ -338,6 +338,6 @@ shocker,735,675
 shocker,435,675
 gravObj_off,585,405,0,300000
 gravObj_off,585,195,0,300000
-checkpoint,1005,375
+checkpoint,1005,345
 exit,585,45
 player,52.5,682.5

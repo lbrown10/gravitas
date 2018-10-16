@@ -244,8 +244,8 @@ gravObj_off,765,15,0,300000
 gravObj_flux,735,285,0,200000
 gravObj_off,315,195,0,200000
 gravObj_off,105,105,0,200000
-checkpoint,315,585
-checkpoint,615,345
-checkpoint,165,165
+checkpoint,315,555
+checkpoint,615,315
+checkpoint,165,135
 exit,855,165
 player,847.5,772.5

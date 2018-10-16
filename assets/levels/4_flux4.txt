@@ -289,8 +289,8 @@ gravObj_off,885,825,0,300000
 gravObj_flux,375,615,0,300000
 gravObj_flux,555,135,0,300000
 wall_move,855,855,855#855-855#585
-checkpoint,765,585
-checkpoint,465,345
-checkpoint,825,855
+checkpoint,765,555
+checkpoint,465,315
+checkpoint,825,825
 exit,375,15
 player,67.5,847.5

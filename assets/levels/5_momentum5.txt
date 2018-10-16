@@ -341,8 +341,8 @@ gravObj_off,1995,165,0,300000
 gravObj_off,2715,225,0,300000
 wall_move,795,375,795#375-795#225
 wall_move,825,375,825#375-825#225
-checkpoint,735,360
-checkpoint,2205,270
+checkpoint,735,330
+checkpoint,2205,240
 exit,2955,15
 player,37.5,382.5
 present,2955,375,1

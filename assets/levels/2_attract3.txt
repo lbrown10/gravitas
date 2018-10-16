@@ -272,7 +272,7 @@ gravObj_off,465,645,0,300000
 gravObj_off,45,345,0,300000
 gravObj_off,315,285,0,300000
 gravObj_off,645,255,0,300000
-checkpoint,165,435
+checkpoint,165,405
 exit,525,15
 exit,555,15
 tutorial_restart,120,780

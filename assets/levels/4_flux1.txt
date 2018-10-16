@@ -343,6 +343,6 @@ shocker,735,675
 shocker,765,675
 gravObj_flux,735,405,0,300000
 gravObj_flux,435,165,0,300000
-checkpoint,195,375
+checkpoint,195,345
 exit,435,15
 player,1132.5,682.5

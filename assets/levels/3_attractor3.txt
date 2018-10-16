@@ -303,8 +303,8 @@ gravObj_off,225,705,0,300000
 gravObj_off,765,825,0,300000
 gravObj_off,675,405,0,300000
 gravObj_off,435,405,0,300000
-checkpoint,765,585
-checkpoint,765,285
+checkpoint,765,555
+checkpoint,765,255
 exit,75,15
 exit,105,15
 player,37.5,847.5

@@ -230,6 +230,6 @@ gravObj_off,285,495,0,300000
 gravObj_off,705,435,0,300000
 gravObj_off,285,255,0,300000
 gravObj_off,495,45,0,300000
-checkpoint,495,465
+checkpoint,495,435
 exit,765,165
 player,37,790

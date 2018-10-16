@@ -55,6 +55,7 @@ let Game = function (game, optionsData) {
     //Debug
     let skipPressed;
     let lastDzoneRect;
+    let doubleCheckDeadness;//Deals with making sure deaths don't double count
 
     // Constants
 
@@ -89,7 +90,6 @@ let Game = function (game, optionsData) {
     function loadLevel() {
         let levelObjects = levelLoader.loadLevel(currentLevelNum);
         unpackObjects(levelObjects);
-
         setLayerOrder();
     }
 
@@ -101,7 +101,8 @@ let Game = function (game, optionsData) {
         game.world.bringToTop(gravCirclesTop);
         game.world.bringToTop(pauseGraphics);
         game.world.bringToTop(selectedObjGraphics);
-
+        
+        doubleCheckDeadness = false;//Have to reset this debug variable here, to insure the kill count only registers a new death after a load.
         freezeHandler.addArrow(game, player);
 
     }
@@ -440,7 +441,7 @@ let Game = function (game, optionsData) {
     }
 
     function resetLevel() {
-        //Hanles resetting the player to last checkpoint upon death, as well as resetting all grav & moving blocks
+        //Handles resetting the player to last checkpoint upon death, as well as resetting all grav & moving blocks
         player.destroy();
         freezeHandler.killArrow();
         player = levelLoader.makePlayer(playerStartX, playerStartY, playerGrav);
@@ -497,12 +498,16 @@ let Game = function (game, optionsData) {
         if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
 //            game.physics.arcade.overlap(player, shockers, function() {
-//                deathHandler.deathAnimation(game, player);}, null, null);
+//            deathHandler.deathAnimation(game, player);}, null, null);
             game.physics.arcade.overlap(player, shockers, function() {
                     deathHandler.deathAnimation(game, player);
-                    deathCount+=1;
+                    if (!doubleCheckDeadness){
+                        deathCount+=1;
+                        doubleCheckDeadness = true;
+                    }
                     deathReadout.text = deathCount;
                     deathReadout.addColor("#ff0000", 0);
+                    console.log(deathCount);
                 }, null, null);
         }
     }

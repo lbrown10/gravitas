@@ -79,7 +79,7 @@ let GravObj = function(game, x, y, gravMin, gravMax, gravOn, flux, moving, movem
                     p.position = getRandomPositionInCircle(this);
                     p.body.velocity.set(0, 0);
                     p.life = particleLife * (1+Math.random());
-                    p.visible = false;
+                    p.visible = true;
                     p.gravConstant = 0;
                 } else {
                     p.life -= 1;
@@ -98,7 +98,7 @@ let GravObj = function(game, x, y, gravMin, gravMax, gravOn, flux, moving, movem
             }, this);
         }
     }
-    
+
     function resetWeight() {
         this.gravWeight = ((this.gravMin + this.gravMax)/2) * this.gravOn * !this.flux;
     }

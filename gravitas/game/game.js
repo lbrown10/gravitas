@@ -672,7 +672,7 @@ let Game = function (game, optionsData) {
                 gravityEffectsOnObject(p);
             }, null);
 
-            if (gravObj.flux) {
+            if (gravObj.flux && !game.physics.arcade.isPaused) {
                 gravObj.gravWeight += 2000 * gravObj.fluxConst;
                 if (gravObj.gravWeight >= gravObj.gravMax || gravObj.gravWeight <= gravObj.gravMin) {
                     gravObj.fluxConst *= -1;

@@ -1,5 +1,5 @@
 let PauseHandler = function(game, optionsHandler) {
-    let pauseMenuUp = false;
+    let active = false;
     let pauseBackground = game.add.sprite(game.width/2, game.height, 'pauseBackground');
     pauseBackground.anchor.set(.5, .5);
     pauseBackground.alpha = .7;
@@ -43,7 +43,7 @@ let PauseHandler = function(game, optionsHandler) {
         resumeButton.visible = true;
         menuButton.visible = true;
         optionsButton.visible = true;
-        pauseMenuUp = true;
+        active = true;
     }
     
     function resumeGame() {
@@ -54,7 +54,7 @@ let PauseHandler = function(game, optionsHandler) {
         resumeButton.visible = false;
         menuButton.visible = false;
         optionsButton.visible = false;
-        pauseMenuUp = false;
+        active = false;
     }
     
     function returnToMenu() {
@@ -77,8 +77,8 @@ let PauseHandler = function(game, optionsHandler) {
     return {
         startPauseMenu: startPauseMenu,
         resume: resumeGame,
-        isPauseMenuUp: function () {
-            return pauseMenuUp;
+        isActive: function () {
+            return active;
         }
     }
     

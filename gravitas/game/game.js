@@ -108,7 +108,7 @@ let Game = function (game, optionsData) {
     function setupFreezeButton() {
         let freezeBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         freezeBtn.onDown.add(function() {
-            if (!pauseHandler.isPauseMenuUp() && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
+            if (!pauseHandler.isActive() && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
                 shockers.children.forEach(function(ele) {
                     ele.animations.paused = ! ele.animations.paused;
                 });
@@ -292,7 +292,7 @@ let Game = function (game, optionsData) {
                 leftKeyWasPressed = true;
             }
             if (event.keyCode === Phaser.KeyCode.ESC) {
-                if (pauseHandler.isPauseMenuUp()) {
+                if (pauseHandler.isActive()) {
                     pauseHandler.resume();
                 } else if(!game.physics.arcade.isPaused) {
                     pauseHandler.startPauseMenu();

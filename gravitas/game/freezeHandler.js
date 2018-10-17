@@ -1,11 +1,11 @@
 let FreezeHandler = function(optionsData) {
-    let stopPauseAnimation = false;
-    let pauseAnimation = false;
-    let pauseAnimationTick = 0;
+    let stopFreezeAnimation = false;
+    let freezeAnimation = false;
+    let freezeAnimationTick = 0;
     let arrow;
     let frozenTime;
 
-    const pauseMaxTick = 30;
+    const freezeMaxTick = 30;
     const arrowDist = 7;    
     
     function startFreeze(game) {
@@ -13,8 +13,8 @@ let FreezeHandler = function(optionsData) {
         game.time.events.pause();
 
         this.arrow.visible = true;
-        this.pauseAnimationTick = 0;
-        this.pauseAnimation = true;
+        this.freezeAnimationTick = 0;
+        this.freezeAnimation = true;
 
         let freezeEffect = game.add.audio('freeze');
         freezeEffect.volume = 0.3 * optionsData.master * optionsData.soundFX;
@@ -23,34 +23,34 @@ let FreezeHandler = function(optionsData) {
     
     function endFreeze(game) {
         
-        this.stopPauseAnimation = true;
-        this.pauseAnimation = false;
+        this.stopFreezeAnimation = true;
+        this.freezeAnimation = false;
         game.time.events.resume();
         
         this.arrow.visible = false;
-        this.pauseAnimationTick = pauseMaxTick;
+        this.freezeAnimationTick = freezeMaxTick;
 
         let unFreezeEffect = game.add.audio('unfreeze');
         unFreezeEffect.volume = 0.3 * optionsData.master * optionsData.soundFX;
         unFreezeEffect.play();
     }
     
-    function doPauseGraphics(game, graphics, player, easing) {
-        let pausedSize = game.width * easing(this.pauseAnimationTick, pauseMaxTick);
+    function doFreezeGraphics(game, graphics, player, easing) {
+        let freezeRectSize = game.width * easing(this.freezeAnimationTick, freezeMaxTick);
 
         graphics.beginFill(0xa3c6ff, .5);
-        graphics.drawRect(player.x - pausedSize, player.y - pausedSize, 2 * pausedSize, 2 * pausedSize);
+        graphics.drawRect(player.x - freezeRectSize, player.y - freezeRectSize, 2 * freezeRectSize, 2 * freezeRectSize);
         graphics.endFill();
 
-        if (this.stopPauseAnimation) {
-            if (this.pauseAnimationTick > 0) {
-                this.pauseAnimationTick -= 1.5;
+        if (this.stopFreezeAnimation) {
+            if (this.freezeAnimationTick > 0) {
+                this.freezeAnimationTick -= 1.5;
             } else {
-                this.stopPauseAnimation = false;
+                this.stopFreezeAnimation = false;
             }
-        } else if (this.pauseAnimation) {
-            if (this.pauseAnimationTick < pauseMaxTick) {
-                this.pauseAnimationTick += 1;
+        } else if (this.freezeAnimation) {
+            if (this.freezeAnimationTick < freezeMaxTick) {
+                this.freezeAnimationTick += 1;
             }
         }
     }
@@ -80,13 +80,13 @@ let FreezeHandler = function(optionsData) {
     
     
     return {
-        stopPauseAnimation: stopPauseAnimation,
-        pauseAnimationTick: pauseAnimationTick,
-        pauseAnimation: pauseAnimation,
+        stopFreezeAnimation: stopFreezeAnimation,
+        freezeAnimationTick: freezeAnimationTick,
+        freezeAnimation: freezeAnimation,
         startFreeze: startFreeze,
         endFreeze: endFreeze,
         addArrow: addArrow,
-        doPauseGraphics: doPauseGraphics,
+        doFreezeGraphics: doFreezeGraphics,
         doArrowChange: doArrowChange,
         killArrow: killArrow,
     }

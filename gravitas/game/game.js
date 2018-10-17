@@ -13,7 +13,7 @@ let Game = function (game, optionsData) {
         tutorialSigns;
 
     // Dynamic displayables
-    let pauseGraphics;
+    let freezeGraphics;
     let selectedObjGraphics;
     let gravCirclesTop;
     let gravCirclesBottom;
@@ -24,7 +24,6 @@ let Game = function (game, optionsData) {
     let deathIcon;
 
     // State info
-    let pauseBtn;
     let selectableGravObjects;
     let currentHighlightedObjIndex;
     let rightKeyWasPressed,
@@ -99,17 +98,16 @@ let Game = function (game, optionsData) {
         game.world.sendToBack(gravCirclesBottom);
         game.world.sendToBack(backgrounds);
         game.world.bringToTop(gravCirclesTop);
-        game.world.bringToTop(pauseGraphics);
+        game.world.bringToTop(freezeGraphics);
         game.world.bringToTop(selectedObjGraphics);
 
         doubleCheckDeadness = false;//Have to reset this debug variable here, to insure the kill count only registers a new death after a load.
         freezeHandler.addArrow(game, player);
-
     }
 
-    function setupPauseButton() {
-        pauseBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-        pauseBtn.onDown.add(function() {
+    function setupFreezeButton() {
+        let freezeBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+        freezeBtn.onDown.add(function() {
             if (!pauseHandler.isPauseMenuUp() && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
                 shockers.children.forEach(function(ele) {
                     ele.animations.paused = ! ele.animations.paused;
@@ -263,7 +261,7 @@ let Game = function (game, optionsData) {
             e.preventDefault();
         };
 
-        pauseGraphics = game.add.graphics();
+        freezeGraphics = game.add.graphics();
         selectedObjGraphics = game.add.graphics();
 
         gravCirclesTop = game.add.group();
@@ -283,7 +281,7 @@ let Game = function (game, optionsData) {
 
         loadLevel();
 
-        setupPauseButton();
+        setupFreezeButton();
         setupJumpButton();
 
         game.input.keyboard.onUpCallback = function (event) {
@@ -397,7 +395,7 @@ let Game = function (game, optionsData) {
             }
         };
 
-        pauseGraphics.clear();
+        freezeGraphics.clear();
         selectedObjGraphics.clear();
 
         gravObjects.children.forEach(function(gravObj) {
@@ -409,8 +407,8 @@ let Game = function (game, optionsData) {
             }
         });
 
-        if ((freezeHandler.pauseAnimation && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) || freezeHandler.stopPauseAnimation) {
-            freezeHandler.doPauseGraphics(game, pauseGraphics, player, quadraticEase);
+        if ((freezeHandler.freezeAnimation && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) || freezeHandler.stopFreezeAnimation) {
+            freezeHandler.doFreezeGraphics(game, freezeGraphics, player, quadraticEase);
         }
 
         if (selectableGravObjects.length > 0) {

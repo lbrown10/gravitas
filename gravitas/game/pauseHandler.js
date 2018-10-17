@@ -10,6 +10,14 @@ let PauseHandler = function(game, optionsHandler) {
     let optionsButton = game.add.button(game.width - 30, game.height - 30, 'optionsButton', gotoOptionsMenu);
     optionsButton.anchor.set(.5, .5);
     
+    //Create Mouseover Highlights
+    resumeButton.alpha = 0.6;
+    menuButton.alpha = 0.6;
+    resumeButton.onInputOver.add(highlightButton, this);
+    resumeButton.onInputOut.add(unhighlightButton, this);
+    menuButton.onInputOver.add(highlightButton, this);
+    menuButton.onInputOut.add(unhighlightButton, this);
+    
     let buttons = game.add.group();
     buttons.add(pauseBackground);
     buttons.add(resumeButton);
@@ -72,5 +80,12 @@ let PauseHandler = function(game, optionsHandler) {
         isPauseMenuUp: function () {
             return pauseMenuUp;
         }
+    }
+    
+    function highlightButton(selected_button){
+        selected_button.alpha = 1;
+    }
+    function unhighlightButton(selected_button){
+        selected_button.alpha = 0.6;
     }
 };

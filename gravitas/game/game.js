@@ -101,7 +101,7 @@ let Game = function (game, optionsData) {
         game.world.bringToTop(gravCirclesTop);
         game.world.bringToTop(pauseGraphics);
         game.world.bringToTop(selectedObjGraphics);
-        
+
         doubleCheckDeadness = false;//Have to reset this debug variable here, to insure the kill count only registers a new death after a load.
         freezeHandler.addArrow(game, player);
 
@@ -315,9 +315,10 @@ let Game = function (game, optionsData) {
         framesHoldingR = 0;
 
         //death counter
-        deathCount = 0;
-        death_icon = game.add.sprite(15, 15, 'deathCounter');
         deathReadout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
+        deathCount = 0;
+        deathReadout.text = deathCount;
+        death_icon = game.add.sprite(15, 15, 'deathCounter');
         death_icon.fixedToCamera = true;
         deathReadout.fixedToCamera = true;
         death_icon.bringToTop();

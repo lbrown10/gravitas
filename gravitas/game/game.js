@@ -105,6 +105,10 @@ let Game = function (game, optionsData) {
         freezeHandler.addArrow(game, player);
     }
 
+    function isIntractive() {
+        return deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting;
+    }
+
     function isStopped() {
         return pauseHandler.isActive() || freezeHandler.isActive();
     }
@@ -128,7 +132,11 @@ let Game = function (game, optionsData) {
     function setupFreezeButton() {
         let freezeBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         freezeBtn.onDown.add(function() {
-            if (!pauseHandler.isActive() && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
+            if (!isIntractive()) {
+                return;
+            }
+
+            if (!pauseHandler.isActive()) {
                 if (freezeHandler.isActive()) {
                     selectableGravObjects.length = 0;
                     freezeHandler.endFreeze(game);
@@ -146,12 +154,12 @@ let Game = function (game, optionsData) {
     function setupJumpButton() {
       // (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W))
       game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
-        if (!isStopped()) {
+        if (isIntractive() && !isStopped()) {
             jumpHandler.userRequestedJump();
         }
       });
       game.input.keyboard.addKey(Phaser.KeyCode.W).onDown.add(function() {
-        if (!isStopped()) {
+        if (isIntractive() && !isStopped()) {
             jumpHandler.userRequestedJump();
         }
       });
@@ -301,6 +309,10 @@ let Game = function (game, optionsData) {
         setupJumpButton();
 
         game.input.keyboard.onUpCallback = function (event) {
+            if(!isIntractive()) {
+                return;
+            }
+
             if (event.keyCode === Phaser.Keyboard.RIGHT || event.keyCode === Phaser.KeyCode.D) {
                 rightKeyWasPressed = true;
             }
@@ -381,7 +393,7 @@ let Game = function (game, optionsData) {
                 }, null);
             }, null);
 
-            if (deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
+            if (isIntractive()) {
                 // Adjust attraction of clicked object
                 adjustAttractorsPull();
             }
@@ -423,7 +435,7 @@ let Game = function (game, optionsData) {
             }
         });
 
-        if ((freezeHandler.freezeAnimation && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) || freezeHandler.stopFreezeAnimation) {
+        if ((freezeHandler.freezeAnimation && isIntractive()) || freezeHandler.stopFreezeAnimation) {
             freezeHandler.doFreezeGraphics(game, freezeGraphics, player, quadraticEase);
         }
 
@@ -510,7 +522,7 @@ let Game = function (game, optionsData) {
         shadowHandler.update(game, player, walls);
 
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
-        if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
+        if (isIntractive() && !deathHandler.diedRecently) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
 //            game.physics.arcade.overlap(player, shockers, function() {
 //            deathHandler.deathAnimation(game, player);}, null, null);

@@ -306,7 +306,7 @@ let Game = function (game, optionsData) {
             if (event.keyCode === Phaser.KeyCode.ESC) {
                 if (pauseHandler.isActive()) {
                     pauseHandler.resume();
-                } else if(!game.physics.arcade.isPaused) {
+                } else {
                     pauseHandler.startPauseMenu();
                 }
             }

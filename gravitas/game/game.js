@@ -105,21 +105,32 @@ let Game = function (game, optionsData) {
         freezeHandler.addArrow(game, player);
     }
 
+    function pausedOrFrozenStateChanged() {
+        let gameStopped = pauseHandler.isActive() || freezeHandler.isActive();
+        
+        game.physics.arcade.isPaused = gameStopped;
+        
+        shockers.children.forEach(function(ele) {
+            ele.animations.paused = gameStopped;
+        });
+
+        if (gameStopped) {
+            game.time.events.pause();
+        } else {
+            game.time.events.resume();
+        }
+    }
+
     function setupFreezeButton() {
         let freezeBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         freezeBtn.onDown.add(function() {
             if (!pauseHandler.isActive() && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
-                shockers.children.forEach(function(ele) {
-                    ele.animations.paused = ! ele.animations.paused;
-                });
-                game.physics.arcade.isPaused = ! game.physics.arcade.isPaused;
-                if (! game.physics.arcade.isPaused) {
+                if (freezeHandler.isActive()) {
                     selectableGravObjects.length = 0;
                     freezeHandler.endFreeze(game);
                     gravObjects.forEach(function(gravObj) {
                         gravObj.animateParticles(true);
                     });
-
                 } else {
                     handleGravObjSelection();
                     freezeHandler.startFreeze(game);
@@ -271,11 +282,12 @@ let Game = function (game, optionsData) {
 
         optionsHandler = new OptionsHandler(game, optionsData, function() {
             pauseHandler.startPauseMenu();
+            pausedOrFrozenStateChanged();
         });
-        pauseHandler = new PauseHandler(game, optionsHandler);
+        pauseHandler = new PauseHandler(game, optionsHandler, pausedOrFrozenStateChanged);
         deathHandler = new DeathHandler(optionsData);
         exitHandler = new ExitHandler(optionsData);
-        freezeHandler = new FreezeHandler(optionsData);
+        freezeHandler = new FreezeHandler(optionsData, pausedOrFrozenStateChanged);
         jumpHandler = new JumpHandler(optionsData);
         shadowHandler = new ShadowHandler();
 

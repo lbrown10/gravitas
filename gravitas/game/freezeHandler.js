@@ -1,16 +1,17 @@
-let FreezeHandler = function(optionsData) {
+let FreezeHandler = function(optionsData, activeStateChanged) {
+    let active = false;
+
     let stopFreezeAnimation = false;
     let freezeAnimation = false;
     let freezeAnimationTick = 0;
     let arrow;
-    let frozenTime;
 
     const freezeMaxTick = 30;
     const arrowDist = 7;    
     
     function startFreeze(game) {
-
-        game.time.events.pause();
+        active = true;
+        activeStateChanged();
 
         this.arrow.visible = true;
         this.freezeAnimationTick = 0;
@@ -22,10 +23,11 @@ let FreezeHandler = function(optionsData) {
     }
     
     function endFreeze(game) {
+        active = false;
+        activeStateChanged();
         
         this.stopFreezeAnimation = true;
         this.freezeAnimation = false;
-        game.time.events.resume();
         
         this.arrow.visible = false;
         this.freezeAnimationTick = freezeMaxTick;
@@ -89,5 +91,8 @@ let FreezeHandler = function(optionsData) {
         doFreezeGraphics: doFreezeGraphics,
         doArrowChange: doArrowChange,
         killArrow: killArrow,
+        isActive: function () {
+            return active;
+        },
     }
 };

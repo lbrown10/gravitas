@@ -105,8 +105,12 @@ let Game = function (game, optionsData) {
         freezeHandler.addArrow(game, player);
     }
 
+    function isStopped() {
+        return pauseHandler.isActive() || freezeHandler.isActive();
+    }
+
     function pausedOrFrozenStateChanged() {
-        let gameStopped = pauseHandler.isActive() || freezeHandler.isActive();
+        let gameStopped = isStopped();
         
         game.physics.arcade.isPaused = gameStopped;
         
@@ -142,12 +146,12 @@ let Game = function (game, optionsData) {
     function setupJumpButton() {
       // (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W))
       game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
-        if (! game.physics.arcade.isPaused && !game.physics.arcade.isPaused) {
+        if (!isStopped()) {
             jumpHandler.userRequestedJump();
         }
       });
       game.input.keyboard.addKey(Phaser.KeyCode.W).onDown.add(function() {
-        if (! game.physics.arcade.isPaused && !game.physics.arcade.isPaused) {
+        if (!isStopped()) {
             jumpHandler.userRequestedJump();
         }
       });
@@ -351,7 +355,7 @@ let Game = function (game, optionsData) {
         doCollision();
         doGravityPhysics();
 
-        if (! game.physics.arcade.isPaused){
+        if (! isStopped()){
             doPlayerMovement();
             doObjMovement();
             // When the player hits the ground after jumping, play a you hit the ground particle effect
@@ -682,7 +686,7 @@ let Game = function (game, optionsData) {
                 gravityEffectsOnObject(p);
             }, null);
 
-            if (gravObj.flux && !game.physics.arcade.isPaused) {
+            if (gravObj.flux && !isStopped()) {
                 gravObj.gravWeight += 2000 * gravObj.fluxConst;
                 if (gravObj.gravWeight >= gravObj.gravMax || gravObj.gravWeight <= gravObj.gravMin) {
                     gravObj.fluxConst *= -1;

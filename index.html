@@ -4,8 +4,6 @@
 <head>
   <title>Gravitas</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <script type="text/javascript" src="node_modules/phaser/build/phaser.min.js"></script>
-  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 
   <style type="text/css">
     html,
@@ -30,12 +28,21 @@
     }
 
     @font-face {
-      font-family: "AR Destine";
+      font-family: AR Destine;
       font-style: normal;
       font-weight: 400;
       src: url('assets/art/fonts/Ar-Destine-Font.ttf') format('truetype');
     }
   </style>
+
+  <script type="text/javascript" src="node_modules/phaser/build/phaser.min.js"></script>
+  <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+</head>
+
+<body>
+  <div style="position:absolute;left:-100px;font-family: AR Destine;">.</div>
+  <div align="center" id="gameWindow"></div>
+  <audio id="mainTheme" loop=True src="assets/audio/gravitasTheme.mp3" />
 
   <script type="text/javascript" src="gravitas/boot.js"></script>
   <script type="text/javascript" src="gravitas/menu.js"></script>
@@ -53,12 +60,6 @@
   <script type="text/javascript" src="gravitas/game/game.js"></script>
   <script type="text/javascript" src="gravitas/levelSelect.js"></script>
   <script type="text/javascript" src="gravitas/main.js"></script>
-
-</head>
-
-<body>
-  <div align="center" id="gameWindow"></div>
-  <audio id="mainTheme" loop=True src="assets/audio/gravitasTheme.mp3" />
-    </body>
+</body>
 
 </html>

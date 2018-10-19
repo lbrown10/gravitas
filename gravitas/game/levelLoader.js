@@ -5,7 +5,7 @@ let LevelLoader = function (game) {
     function setup() {
         let levelList = game.cache.getText('levelList').split('\n');
         let levelNames = [];
-        for(let i=0; i< levelList.length; i++){
+        for(let i = 0; i < levelList.length; i++){
             levelNames[i]="assets/levels/"+levelList[i];
             game.load.text("level"+i, levelNames[i]);
         }
@@ -159,7 +159,7 @@ let LevelLoader = function (game) {
         levelObjects.checkpoints = game.add.group();
         levelObjects.tutorialSigns = game.add.group();
         levelObjects.movers = [];
-        
+
         return levelObjects;
     }
 
@@ -233,7 +233,7 @@ let LevelLoader = function (game) {
         }
 
         console.log("Loaded "+level.length + " level objects");
-        
+
         // Add player start location
         levelObjects.playerStartX = levelObjects.player.x;
         levelObjects.playerStartY = levelObjects.player.y;

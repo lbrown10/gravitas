@@ -246,7 +246,6 @@ let Game = function (game, optionsData) {
         game.load.audio('frozenTime', 'assets/audio/frozenTime.mp3');
 
         // Animated sprites
-//        game.load.spritesheet('shocker', 'assets/art/fire_sprites.png', 51.6666666666667, 65, 12);
         game.load.spritesheet('shocker', 'assets/art/electricity_sprites2.png', 30, 30, 3);
 
         levelLoader = new LevelLoader(game);
@@ -314,8 +313,8 @@ let Game = function (game, optionsData) {
         framesHoldingR = 0;
 
         //death counter
-        deathReadout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
         deathCount = 0;
+        deathReadout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
         deathReadout.text = deathCount;
         death_icon = game.add.sprite(15, 15, 'deathCounter');
         death_icon.fixedToCamera = true;

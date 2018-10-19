@@ -235,7 +235,5 @@ gravObj_off,405,15,0,300000
 gravObj_on,405,720,0,300000
 gravObj_on,735,345,0,300000
 gravObj_on,75,345,0,300000
-tutorial_time_freeze,250,670
-tutorial_gravity_change,450,650
 exit,405,45
 player,37.5,922.5

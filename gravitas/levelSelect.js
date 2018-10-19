@@ -84,6 +84,11 @@ let LevelSelect = function (game, gameState) {
             up.angle = 90;
             controlButtons.add(up);
         }
+        controlButtons.forEach(function(arrow) {
+            arrow.alpha = 0.6;
+            arrow.onInputOver.add(highlightButton, this);            
+            arrow.onInputOut.add(unhighlightButton, this);
+        });
     }
     
     function renderPage(pageNum) {

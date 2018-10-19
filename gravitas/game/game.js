@@ -13,7 +13,7 @@ let Game = function (game, optionsData) {
         tutorialSigns;
 
     // Dynamic displayables
-    let pauseGraphics;
+    let freezeGraphics;
     let selectedObjGraphics;
     let gravCirclesTop;
     let gravCirclesBottom;
@@ -24,7 +24,6 @@ let Game = function (game, optionsData) {
     let deathIcon;
 
     // State info
-    let pauseBtn;
     let selectableGravObjects;
     let currentHighlightedObjIndex;
     let rightKeyWasPressed,
@@ -99,29 +98,51 @@ let Game = function (game, optionsData) {
         game.world.sendToBack(gravCirclesBottom);
         game.world.sendToBack(backgrounds);
         game.world.bringToTop(gravCirclesTop);
-        game.world.bringToTop(pauseGraphics);
+        game.world.bringToTop(freezeGraphics);
         game.world.bringToTop(selectedObjGraphics);
 
         doubleCheckDeadness = false;//Have to reset this debug variable here, to insure the kill count only registers a new death after a load.
         freezeHandler.addArrow(game, player);
-
     }
 
-    function setupPauseButton() {
-        pauseBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-        pauseBtn.onDown.add(function() {
-            if (!pauseHandler.isPauseMenuUp() && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
-                shockers.children.forEach(function(ele) {
-                    ele.animations.paused = ! ele.animations.paused;
-                });
-                game.physics.arcade.isPaused = ! game.physics.arcade.isPaused;
-                if (! game.physics.arcade.isPaused) {
+    function isIntractive() {
+        return deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting;
+    }
+
+    function isStopped() {
+        return pauseHandler.isActive() || freezeHandler.isActive();
+    }
+
+    function pausedOrFrozenStateChanged() {
+        let gameStopped = isStopped();
+        
+        game.physics.arcade.isPaused = gameStopped;
+        
+        shockers.children.forEach(function(ele) {
+            ele.animations.paused = gameStopped;
+        });
+
+        if (gameStopped) {
+            game.time.events.pause();
+        } else {
+            game.time.events.resume();
+        }
+    }
+
+    function setupFreezeButton() {
+        let freezeBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+        freezeBtn.onDown.add(function() {
+            if (!isIntractive()) {
+                return;
+            }
+
+            if (!pauseHandler.isActive()) {
+                if (freezeHandler.isActive()) {
                     selectableGravObjects.length = 0;
                     freezeHandler.endFreeze(game);
                     gravObjects.forEach(function(gravObj) {
                         gravObj.animateParticles(true);
                     });
-
                 } else {
                     handleGravObjSelection();
                     freezeHandler.startFreeze(game);
@@ -132,12 +153,12 @@ let Game = function (game, optionsData) {
 
     function setupJumpButton() {
       game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
-        if (! game.physics.arcade.isPaused && !game.physics.arcade.isPaused) {
+        if (isIntractive() && !isStopped()) {
             jumpHandler.userRequestedJump();
         }
       });
       game.input.keyboard.addKey(Phaser.KeyCode.W).onDown.add(function() {
-        if (! game.physics.arcade.isPaused && !game.physics.arcade.isPaused) {
+        if (isIntractive() && !isStopped()) {
             jumpHandler.userRequestedJump();
         }
       });
@@ -261,7 +282,7 @@ let Game = function (game, optionsData) {
             e.preventDefault();
         };
 
-        pauseGraphics = game.add.graphics();
+        freezeGraphics = game.add.graphics();
         selectedObjGraphics = game.add.graphics();
 
         gravCirclesTop = game.add.group();
@@ -271,20 +292,25 @@ let Game = function (game, optionsData) {
 
         optionsHandler = new OptionsHandler(game, optionsData, function() {
             pauseHandler.startPauseMenu();
+            pausedOrFrozenStateChanged();
         });
-        pauseHandler = new PauseHandler(game, optionsHandler);
+        pauseHandler = new PauseHandler(game, optionsHandler, pausedOrFrozenStateChanged);
         deathHandler = new DeathHandler(optionsData);
         exitHandler = new ExitHandler(optionsData);
-        freezeHandler = new FreezeHandler(optionsData);
+        freezeHandler = new FreezeHandler(optionsData, pausedOrFrozenStateChanged);
         jumpHandler = new JumpHandler(optionsData);
         shadowHandler = new ShadowHandler();
 
         loadLevel();
 
-        setupPauseButton();
+        setupFreezeButton();
         setupJumpButton();
 
         game.input.keyboard.onUpCallback = function (event) {
+            if(!isIntractive()) {
+                return;
+            }
+
             if (event.keyCode === Phaser.Keyboard.RIGHT || event.keyCode === Phaser.KeyCode.D) {
                 rightKeyWasPressed = true;
             }
@@ -292,9 +318,9 @@ let Game = function (game, optionsData) {
                 leftKeyWasPressed = true;
             }
             if (event.keyCode === Phaser.KeyCode.ESC) {
-                if (pauseHandler.isPauseMenuUp()) {
+                if (pauseHandler.isActive()) {
                     pauseHandler.resume();
-                } else if(!game.physics.arcade.isPaused) {
+                } else {
                     pauseHandler.startPauseMenu();
                 }
             }
@@ -339,7 +365,7 @@ let Game = function (game, optionsData) {
         doCollision();
         doGravityPhysics();
 
-        if (! game.physics.arcade.isPaused){
+        if (! isStopped()){
             doPlayerMovement();
             doObjMovement();
             // When the player hits the ground after jumping, play a you hit the ground particle effect
@@ -365,7 +391,7 @@ let Game = function (game, optionsData) {
                 }, null);
             }, null);
 
-            if (deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) {
+            if (isIntractive()) {
                 // Adjust attraction of clicked object
                 adjustAttractorsPull();
             }
@@ -395,7 +421,7 @@ let Game = function (game, optionsData) {
             }
         };
 
-        pauseGraphics.clear();
+        freezeGraphics.clear();
         selectedObjGraphics.clear();
 
         gravObjects.children.forEach(function(gravObj) {
@@ -407,8 +433,8 @@ let Game = function (game, optionsData) {
             }
         });
 
-        if ((freezeHandler.pauseAnimation && deathHandler.notCurrentlyDying && exitHandler.notCurrentlyExiting) || freezeHandler.stopPauseAnimation) {
-            freezeHandler.doPauseGraphics(game, pauseGraphics, player, quadraticEase);
+        if ((freezeHandler.freezeAnimation && isIntractive()) || freezeHandler.stopFreezeAnimation) {
+            freezeHandler.doFreezeGraphics(game, freezeGraphics, player, quadraticEase);
         }
 
         if (selectableGravObjects.length > 0) {
@@ -494,7 +520,7 @@ let Game = function (game, optionsData) {
         shadowHandler.update(game, player, walls);
 
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
-        if (deathHandler.notCurrentlyDying && !deathHandler.diedRecently && exitHandler.notCurrentlyExiting) {
+        if (isIntractive() && !deathHandler.diedRecently) {
             game.physics.arcade.overlap(player, exits, onExit, null, null);
 //            game.physics.arcade.overlap(player, shockers, function() {
 //            deathHandler.deathAnimation(game, player);}, null, null);
@@ -670,7 +696,7 @@ let Game = function (game, optionsData) {
                 gravityEffectsOnObject(p);
             }, null);
 
-            if (gravObj.flux) {
+            if (gravObj.flux && !isStopped()) {
                 gravObj.gravWeight += 2000 * gravObj.fluxConst;
                 if (gravObj.gravWeight >= gravObj.gravMax || gravObj.gravWeight <= gravObj.gravMin) {
                     gravObj.fluxConst *= -1;

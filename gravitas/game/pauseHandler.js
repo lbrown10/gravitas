@@ -1,5 +1,5 @@
-let PauseHandler = function(game, optionsHandler) {
-    let pauseMenuUp = false;
+let PauseHandler = function(game, optionsHandler, activeStateChanged) {
+    let active = false;
     let pauseBackground = game.add.sprite(game.width/2, game.height, 'pauseBackground');
     pauseBackground.anchor.set(.5, .5);
     pauseBackground.alpha = .7;
@@ -29,9 +29,6 @@ let PauseHandler = function(game, optionsHandler) {
     optionsButton.visible = false;
         
     function startPauseMenu() {
-        game.physics.arcade.isPaused = true;
-        game.time.events.pause();
-        
         game.world.bringToTop(buttons);
         let centerX = game.camera.view.centerX;
         let centerY = game.camera.view.centerY;
@@ -43,24 +40,27 @@ let PauseHandler = function(game, optionsHandler) {
         resumeButton.visible = true;
         menuButton.visible = true;
         optionsButton.visible = true;
-        pauseMenuUp = true;
+
+        active = true;
+        activeStateChanged();
     }
     
     function resumeGame() {
-        game.physics.arcade.isPaused = false;
-        game.time.events.resume();
-        
         pauseBackground.visible = false;
         resumeButton.visible = false;
         menuButton.visible = false;
         optionsButton.visible = false;
-        pauseMenuUp = false;
+
+        active = false;
+        activeStateChanged();
     }
     
     function returnToMenu() {
         buttons.destroy();
-        game.physics.arcade.isPaused = false;
-        game.time.events.resume();
+
+        active = false;
+        activeStateChanged();
+
         game.state.start('menu');
     }
     
@@ -77,8 +77,8 @@ let PauseHandler = function(game, optionsHandler) {
     return {
         startPauseMenu: startPauseMenu,
         resume: resumeGame,
-        isPauseMenuUp: function () {
-            return pauseMenuUp;
+        isActive: function () {
+            return active;
         }
     }
     

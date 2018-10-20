@@ -109,16 +109,6 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         levelSelectBtn.alpha = 0.6;
     }
 
-
-    function renewProgressLocalStorage() {
-        let levelList = game.cache.getText('levelList').split('\n');
-        playerDataList = [0];
-        for (let i = 1; i < levelList.length; i++) {
-            playerDataList[i] = 1;
-        }
-        localStorage.setItem('user_progress', playerDataList);
-    }
-
     function MyUpdate() {
         if (startBtn.input.pointerOver()){
             startBtn.alpha = 0.5;
@@ -134,7 +124,6 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
 
     function onStartButtonPush() {
         clearLevel();
-        renewProgressLocalStorage();
         startGameFromMenuCallback();
     }
 

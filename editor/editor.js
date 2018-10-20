@@ -248,7 +248,7 @@ function create() {
                     break;
                 case 'bounce':
                     obj = game.add.sprite(objectX, objectY, objectName);
-                    walls.add(obj);
+                    bouncers.add(obj);
                     break;
                 case 'gravObj_off':
                     obj = game.add.sprite(objectX, objectY, 'gravObj');
@@ -399,12 +399,10 @@ function buildLevelString(){
         let obj = walls.children[i];
         result += 'wall,' + obj.position.x + ',' + obj.position.y + '\n'
     }
-
     for (let i = 0; i < bouncers.children.length; i++) {
         let obj = bouncers.children[i];
         result += 'bounce,' + obj.position.x + ',' + obj.position.y + '\n'
     }
-
     for (let i = 0; i < shockers.children.length; i++) {
         let obj = shockers.children[i];
         result += 'shocker,' + obj.position.x + ',' + obj.position.y + '\n'
@@ -560,6 +558,9 @@ function initializeObj(objectName) {
     switch(objectName){
         case 'wall':
             walls.add(obj);
+            break;
+        case 'bounce':
+            bouncers.add(obj);
             break;
         case 'shocker':
             shockers.add(obj);

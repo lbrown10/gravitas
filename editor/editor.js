@@ -7,6 +7,7 @@ let game;
 let graphic;
 let bounds;
 let walls;
+let bouncers;
 let wall_moves;
 let shockers;
 let gravObj_offs;
@@ -98,7 +99,7 @@ function editorStart2() {
 function editorStart1() {
     let widthBlocks = $('#width')[0].value;
     let heightBlocks = $('#height')[0].value;
-    
+
     width = widthBlocks * 30;
     height = heightBlocks * 30;
 
@@ -132,7 +133,7 @@ function loadFromLocal(){
     }
         let widthBlocks = $('#width')[0].value;
         let heightBlocks = $('#height')[0].value;
-        
+
         let file = localStorage.getItem(localLevelId);
         level = file.split('\n');
         let boundary = level[0].split(',');
@@ -145,6 +146,7 @@ function loadFromLocal(){
 
 function preload() {
     game.load.image('wall', 'assets/art/bricks_gray.png');
+    game.load.image('bounce', 'assets/art/bounce.png');
     game.load.image('gravObj', 'assets/art/gravObj.png');
     game.load.spritesheet('shocker', 'assets/art/electricity_sprites.png', 30, 30, 3);
     game.load.image('checkpoint', 'assets/art/flag_green.png');
@@ -182,19 +184,20 @@ function create() {
     game.stage.backgroundColor = '#6970db';
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.world.enableBody = true;
-    
+
     game.canvas.oncontextmenu = function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
     }
-    
+
     bounds = new Phaser.Rectangle(0,0,width, height);
     graphic = game.add.graphics(bounds.x, bounds.y);
     graphic.drawRect(0, 0, bounds.width, bounds.height);
 
     draw_gridlines()
-    
+
     //Create groups for all objects of same type
     walls = game.add.group();
+    bouncers = game.add.group();
     wall_moves = game.add.group();
     gravObj_offs = game.add.group();
     gravObj_ons = game.add.group();
@@ -216,7 +219,7 @@ function create() {
             let objectY = parseFloat(objectInfo[2]);
             let obj;
             let movementList;
-            
+
             switch(objectName) {
                 case 'wall':
                     obj = game.add.sprite(objectX, objectY, objectName);
@@ -242,6 +245,10 @@ function create() {
                         path.number = num;
                     });
                     wall_moves.add(obj);
+                    break;
+                case 'bounce':
+                    obj = game.add.sprite(objectX, objectY, objectName);
+                    walls.add(obj);
                     break;
                 case 'gravObj_off':
                     obj = game.add.sprite(objectX, objectY, 'gravObj');
@@ -285,7 +292,7 @@ function create() {
                         obj.currentNumber += 1;
                         path.number = num;
                     });
-                    break;    
+                    break;
                 case 'gravObj_moveFlux':
                     obj = game.add.sprite(objectX, objectY, 'gravObj');
                     obj.gravMin = parseFloat(objectInfo[3]);
@@ -330,13 +337,13 @@ function create() {
                     break;
                 default:
                     break;
-            }       
+            }
             obj.anchor.set(.5,.5);
             obj.inputEnabled = true;
             obj.events.onInputDown.add(deleteObject, this);
             obj.events.onInputUp.add(inputUp, this);
             obj.input.boundsRect = bounds;
-        }  
+        }
     } else {
         // In case of new level, Make walls around edges
         for (let i = blockHalfSize; i <= width; i += blockFullSize){
@@ -347,7 +354,7 @@ function create() {
             makeWall(blockHalfSize, i);
             makeWall(width - blockHalfSize, i);
         }
-        
+
         player_start = game.add.sprite(blockFullSize + blockQuarterSize, height - blockFullSize - blockQuarterSize, 'player');
         player_start.anchor.set(.5, .5);
         player_start.inputEnabled = true;
@@ -355,7 +362,7 @@ function create() {
         player_start.events.onInputUp.add(inputUp, this);
         player_start.input.boundsRect = bounds;
     }
-    
+
     // Buttons for adding objects to canvas
     let adders = $('.adders');
     adders.show();
@@ -368,7 +375,7 @@ function create() {
             adders.removeClass('current');
             currentSelectedObj = null;
         }
-        
+
         if (currentSelectedObj == 'gravObj_on' || currentSelectedObj == 'gravObj_flux' || currentSelectedObj == 'gravObj_move' || currentSelectedObj == 'gravObj_moveFlux') {
             $(".list").addClass('show');
             $(".break").hide();
@@ -376,13 +383,13 @@ function create() {
             $(".list").removeClass('show');
             $(".break").show();
         }
-    });           
-    
+    });
+
     // Display string representation of canvas
     $('#display').click(buildLevelString);
-    
+
     $('#zoom').click(zoomToggle);
-    
+
 }
 
 function buildLevelString(){
@@ -392,7 +399,12 @@ function buildLevelString(){
         let obj = walls.children[i];
         result += 'wall,' + obj.position.x + ',' + obj.position.y + '\n'
     }
-    
+
+    for (let i = 0; i < bouncers.children.length; i++) {
+        let obj = bouncers.children[i];
+        result += 'bounce,' + obj.position.x + ',' + obj.position.y + '\n'
+    }
+
     for (let i = 0; i < shockers.children.length; i++) {
         let obj = shockers.children[i];
         result += 'shocker,' + obj.position.x + ',' + obj.position.y + '\n'
@@ -417,7 +429,7 @@ function buildLevelString(){
         });
         result = result.slice(0, -1) + '\n';
     });
-    
+
     gravObj_movers.forEach(function(obj) {
         result += 'gravObj_move,' + obj.position.x + ',' + obj.position.y + ',' + obj.gravMin + ',' + obj.gravMax + ',' + obj.position.x + '#' + obj.position.y + '-';
         obj.movementPathing.forEach(function(ele) {
@@ -425,7 +437,7 @@ function buildLevelString(){
         });
         result = result.slice(0, -1) + '\n';
     });
-    
+
     gravObj_moveFluxes.forEach(function(obj) {
         result += 'gravObj_moveFlux,' + obj.position.x + ',' + obj.position.y + ',' + obj.gravMin + ',' + obj.gravMax + ',' + obj.position.x + '#' + obj.position.y + '-';
         obj.movementPathing.forEach(function(ele) {
@@ -437,7 +449,7 @@ function buildLevelString(){
     checkpoints.children.forEach(function(obj) {
         result += 'checkpoint,' + obj.position.x + ',' + obj.position.y + '\n';
     });
-    
+
     exits.children.forEach(function(obj) {
         result += 'exit,' + obj.position.x + ',' + obj.position.y + '\n'
     });
@@ -535,16 +547,16 @@ function initializeObj(objectName) {
         obj = game.add.sprite(spawnPosX, spawnPosY, objectName);
     }
 
-    
+
     obj.inputEnabled = true;
     obj.events.onInputDown.add(deleteObject, this);
     obj.anchor.set(.5, .5);
     //obj.input.enableDrag();
     obj.events.onInputUp.add(inputUp, this);
-    
+
     obj.input.boundsRect = bounds;
     inputUp(obj);
-    
+
     switch(objectName){
         case 'wall':
             walls.add(obj);
@@ -586,7 +598,7 @@ function inputUp(obj) {
     if(diff >blockQuarterSize)
         diff -=blockHalfSize;
     obj.y-=diff;
-    
+
     // If the object has a number on top of it, keep them together
     if (obj.number) {
         obj.number.body.velocity.x = 0;
@@ -602,7 +614,7 @@ function inputUp(obj) {
 }
 
 function makeWall(x, y){
-    
+
     let wall = game.add.sprite(x, y, 'wall');
     wall.inputEnabled = true;
     wall.events.onInputDown.add(deleteObject, this);
@@ -612,16 +624,16 @@ function makeWall(x, y){
     wall.input.boundsRect = bounds;
     wall.body.immovable = true;
     walls.add(wall);
-    
+
 }
 
 function deleteObject(obj) {
     obj.body.immovable = false;
     clickedObj = obj;
     if (game.input.activePointer.rightButton.isDown) {
-        
+
         if (gravObj_movers.children.indexOf(obj) > -1 ||           gravObj_moveFluxes.children.indexOf(obj) > -1 ||       wall_moves.children.indexOf(obj) > -1) {
-            
+
             currentSelectedObj = 'wall';
             obj.movementPathing.forEach(function(ele) {
                 ele.number.destroy();
@@ -650,7 +662,7 @@ function deleteObject(obj) {
         }
         clickedObj = null;
     }
-    
+
 }
 
 function expand_level_right() {
@@ -658,11 +670,11 @@ function expand_level_right() {
     game.scale.setGameSize(width, height)
     draw_gridlines();
 }
- 
+
 function expand_level_up() {
     height = height + 30;
     game.scale.setGameSize(width, height)
-    
+
     for (let i = 0; i < walls.children.length; i++) {
         let current_obj = walls.children[i];
         current_obj.y = current_obj.y+30;
@@ -702,9 +714,9 @@ function expand_level_up() {
     for (let i = 0; i < exits.children.length; i++) {
         let current_obj = exits.children[i];
         current_obj.y = current_obj.y+30;
-    }  
+    }
     player_start.y = player_start.y+30;
-    
+
     draw_gridlines();
 }
 
@@ -721,29 +733,29 @@ function update() {
     game.physics.arcade.collide(gravObj_offs, shockers);
     game.physics.arcade.collide(shockers, shockers);
     //*/
-    
+
     if (game.input.activePointer.leftButton.isDown && clickedObj != null) {
         clickedObj.body.velocity.x = 20 * (game.input.activePointer.position.x - clickedObj.position.x);
         clickedObj.body.velocity.y = 20 * (game.input.activePointer.position.y - clickedObj.position.y);
-        
+
         if(clickedObj.number) {
             clickedObj.number.body.velocity.x = 20 * (game.input.activePointer.position.x - clickedObj.position.x)
             clickedObj.number.body.velocity.y = 20 * (game.input.activePointer.position.y - clickedObj.position.y)
         }
     }
-    
+
     if ((game.input.activePointer.leftButton.isDown && clickedObj == null && ! leftClicked) || (mousePosition != null && (Math.abs(game.input.activePointer.position.x - mousePosition.x) > 28 || Math.abs(game.input.activePointer.position.y - mousePosition.y) > 28))) {
-        
+
         initializeObj(currentSelectedObj);
         leftClicked = true;
         mousePosition = new Phaser.Point(game.input.activePointer.position.x, game.input.activePointer.position.y);
     }
-    
+
     if (game.input.activePointer.leftButton.isUp && clickedObj == null) {
         leftClicked = false;
         mousePosition = null;
     }
-    
+
     if(currentSelectedObj != 'path') {
         pathedObj = null;
     }

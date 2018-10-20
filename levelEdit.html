@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
         <title>Level Editor</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <script type="text/javascript" src="node_modules/phaser/build/phaser.min.js"></script>
         <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
         <link rel="stylesheet" href="assets/style.css" type="text/css">
     </head>
-    
-    
+
+
     <body>
         <h1 style="text-align: center">Gravitas Level Editor</h1>
         <div class="sizeSelect">
@@ -28,7 +28,7 @@
             <textarea id="levelText"></textarea>
             <br />
             <br />
-            
+
             <input type="button" onclick="editorStart2()" value="Start Editing!"/>
 
             <input id="file" value="Upload File to Edit" type="file" />
@@ -40,7 +40,7 @@
                 </select>
             </p>
         </div>
-        
+
         <div class="firstSection">
             <p>
             Left click to add objects. Right click to delete objects.
@@ -54,6 +54,7 @@
                 <br />
                 <br />
                 <input class="adders" type="button" id="wall" value="Add Walls" />
+                <input class="adders" type="button" id="bounce" value="Add Bouncers" />
                 <input class="adders" type="button" id="wall_move" value="Add Moving Platforms" />
                 <input class="adders" type="button" id="shocker" value="Add Electricity" />
                 <input class="adders" type="button" id="gravObj_on" value="Add On Attractors" />
@@ -75,10 +76,10 @@
                 <input id="playerGrav" type="number" min="0" max="2500" value="2500" />
                 </div>
             </div>
-            
+
         <p id="response" style="white-space: pre-wrap"></p>
         <script src="editor/editor.js"></script>
-        
+
     </body>
-    
+
 </html>

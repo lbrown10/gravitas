@@ -2,7 +2,7 @@ let Game = function (game, optionsData) {
 
     // Displayables from level file
     let player,
-        walls,
+        wallssetUp,
         shockers,
         gravObjects,
         checkpoints,
@@ -129,7 +129,7 @@ let Game = function (game, optionsData) {
         }
     }
 
-    function setupFreezeButton() {
+    function setUpFreezeButton() {
         let freezeBtn = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         freezeBtn.onDown.add(function() {
             if (!isIntractive()) {
@@ -151,7 +151,7 @@ let Game = function (game, optionsData) {
         }, null);
     }
 
-    function setupJumpButton() {
+    function setUpJumpButton() {
       game.input.keyboard.addKey(Phaser.KeyCode.UP).onDown.add(function() {
         if (isIntractive() && !isStopped()) {
             jumpHandler.userRequestedJump();
@@ -270,7 +270,7 @@ let Game = function (game, optionsData) {
         game.load.spritesheet('shocker', 'assets/art/electricity_sprites2.png', 30, 30, 3);
 
         levelLoader = new LevelLoader(game);
-        levelLoader.setup();
+        levelLoader.setUp();
     }
 
     function create() {
@@ -303,8 +303,8 @@ let Game = function (game, optionsData) {
 
         loadLevel();
 
-        setupFreezeButton();
-        setupJumpButton();
+        setUpFreezeButton();
+        setUpJumpButton();
 
         game.input.keyboard.onUpCallback = function (event) {
             if(!isIntractive()) {

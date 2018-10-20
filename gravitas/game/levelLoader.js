@@ -2,7 +2,7 @@ let LevelLoader = function (game) {
     const playerSize = 14;
     let levels;
 
-    function setup() {
+    function setUp() {
         let levelList = game.cache.getText('levelList').split('\n');
         let levelNames = [];
         for(let i = 0; i < levelList.length; i++){
@@ -243,7 +243,7 @@ let LevelLoader = function (game) {
     }
 
     return {
-        setup: setup,
+        setUp: setUp,
         getLevelCount: getLevelCount,
         loadLevel: loadLevel,
         makePlayer: makePlayer,

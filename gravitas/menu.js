@@ -1,12 +1,12 @@
 let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelectFromMenuCallback) {
-    
-    
+
+
     //game.state.add('levelselect', {preload: levelSelect.preload, create: levelSelect.create, update: levelSelect.onLevelSelected});
 
     let startBtn, levelSelectBtn, optionsButton, background, flame1, flame2, playerDataList;
     let fadeIn = true;
     let optionsHandler;
-    
+
     function clearLevel() {
         background.kill();
         startBtn.kill();
@@ -34,7 +34,7 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         game.load.image('musicAudioLabel', 'assets/art/musicAudioLabel.png');
         game.load.image('soundFXAudioLabel', 'assets/art/soundFXAudioLabel.png');
         game.load.image('optionsLabel', 'assets/art/optionsLabel.png');
-        
+
         game.load.audio('jump4', ['assets/audio/Jump4.mp3', 'assets/audio/Jump4.ogg']);
     }
 
@@ -56,11 +56,11 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         levelSelectBtn.inputEnabled = true;
         levelSelectBtn.alpha = 0.6;
 
-        
+
         optionsButton = game.add.button(game.width - 37, game.height - 30, 'optionsButton', onOptionsPush, null);
         optionsButton.anchor.set(.5, .5);
         optionsButton.inputEnabled = true;
-        
+
 
 
         if (fadeIn) {
@@ -74,7 +74,7 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
             levelSelectBtn.visible = true;
             optionsButton.visible = true;
         });
-        
+
         /*
         // THERE NEEDS TO BE A BETTER WAY TO DO THIS
         let flame_height = game.height/2 + 9;
@@ -94,7 +94,7 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         levelSelectBtn.onInputOver.add(lvlHighlight, this);
         levelSelectBtn.onInputOut.add(lvlUnhighlight, this);
     }
-    
+
     //Button Highlights
     function startHighlight() {
         startBtn.alpha = 1;
@@ -108,8 +108,8 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
     function lvlUnhighlight() {
         levelSelectBtn.alpha = 0.6;
     }
-    
-    
+
+
     function renewProgressLocalStorage() {
         let levelList = game.cache.getText('levelList').split('\n');
         playerDataList = [0];
@@ -118,8 +118,8 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         }
         localStorage.setItem('user_progress', playerDataList);
     }
-    
-    function Myupdate() {
+
+    function MyUpdate() {
         if (startBtn.input.pointerOver()){
             startBtn.alpha = 0.5;
         }else{
@@ -137,19 +137,19 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
         renewProgressLocalStorage();
         startGameFromMenuCallback();
     }
-    
+
     function onOptionsPush() {
         background.visible = false;
         startBtn.visible = false;
         levelSelectBtn.visible = false;
         optionsButton.visible = false;
-        
+
         optionsHandler.startOptionsMenu();
     }
 
     function onLevelSelectButtonPush() {
         clearLevel();
-        goToLevelSelectFromMenuCallback();   
+        goToLevelSelectFromMenuCallback();
     }
 
     return {

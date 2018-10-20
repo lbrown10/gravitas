@@ -60,6 +60,13 @@ let LevelLoader = function (game) {
                 levelObjects.walls.add(wall);
                 levelObjects.movers.push(wall);
                 break;
+            case 'bounce':
+                wall = game.add.sprite(objectX, objectY, objectName);
+                wall.moving = false;
+                wall.body.immovable = true;
+                wall.anchor.set(.5,.5);
+                levelObjects.walls.add(wall);
+                break;
             case 'grass':
                 wall = game.add.sprite(objectX, objectY, objectName);
                 wall.moving = false;

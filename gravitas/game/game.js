@@ -524,7 +524,9 @@ let Game = function (game, optionsData) {
             }, null, null);
         }, null);
 
-        shadowHandler.update(game, player, walls, bouncers);
+        if (shadowHandler.update(game, player, walls, bouncers)){
+          jumpHandler.userRequestedJump();
+        };
 
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
         if (isIntractive() && !deathHandler.diedRecently) {

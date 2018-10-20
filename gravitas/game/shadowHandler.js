@@ -2,7 +2,9 @@ let ShadowHandler = function() {
     let playerShadowLeft,
         playerShadowRight,
         playerShadowBottom,
-        playerShadowTop;
+        playerShadowTop,
+        isTouchingBouncer;
+
 
     const maxJumpFrames = 10;
     const jumpVelocity = 300;
@@ -23,6 +25,8 @@ let ShadowHandler = function() {
         playerShadowTop = game.add.sprite(player.body.position.x, player.body.position.y, 'shadow');
         playerShadowTop.anchor.set(.5, .5);
         playerShadowTop.body.setSize(13, 1, 0, 0);
+
+        isTouchingBouncer = false;
     }
 
     function update(game, player, walls, bouncers) {
@@ -30,6 +34,8 @@ let ShadowHandler = function() {
         player.isTouchingLeft = false;
         player.isTouchingBottom = false;
         player.isTouchingTop = false;
+
+        isTouchingBouncer = false;
 
         playerShadowLeft.body.position.set(player.body.position.x - 2, player.body.position.y);
         playerShadowRight.body.position.set(player.body.position.x + .5, player.body.position.y);
@@ -55,12 +61,14 @@ let ShadowHandler = function() {
         game.physics.arcade.overlap(playerShadowLeft, bouncers, function() {
             player.isTouchingLeft = true;
         }, null, null);
-        game.physics.arcade.overlap(playerShadowBottom, bouncers, function() {
-            player.isTouchingBottom = true;
-        }, null, null);
         game.physics.arcade.overlap(playerShadowTop, bouncers, function() {
             player.isTouchingTop = true;
         }, null, null);
+        game.physics.arcade.overlap(playerShadowBottom, bouncers, function() {
+            player.isTouchingBottom = true;
+            isTouchingBouncer = true;
+        }, null, null);
+        return isTouchingBouncer;
     }
 
     return {

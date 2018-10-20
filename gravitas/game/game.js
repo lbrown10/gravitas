@@ -11,7 +11,8 @@ let Game = function (game, optionsData) {
         emitters,
         backgrounds,
         movers,
-        tutorialSigns;
+        tutorialSigns,
+        bouncers;
 
     // Dynamic displayables
     let freezeGraphics;
@@ -85,6 +86,7 @@ let Game = function (game, optionsData) {
         backgrounds = loaderObjects.backgrounds;
         movers = loaderObjects.movers;
         tutorialSigns = loaderObjects.tutorialSigns;
+        bouncers = loaderObjects.bouncers;
     }
 
     function loadLevel() {
@@ -490,6 +492,7 @@ let Game = function (game, optionsData) {
         //Destroys eveything in the current level
         player.kill();
         walls.destroy();
+        bouncers.destroy();
         shockers.destroy();
         gravObjects.forEach(function(gravObj) {
             if (gravObj.gravParticles !== undefined) {
@@ -508,7 +511,9 @@ let Game = function (game, optionsData) {
 
     function doCollision() {
         game.physics.arcade.collide(emitters, walls);
+        game.physics.arcade.collide(emitters, bouncers);
         game.physics.arcade.collide(player, walls);
+        game.physics.arcade.collide(player, bouncers);
         game.physics.arcade.collide(player, gravObjects);
 
         game.physics.arcade.overlap(player, checkpoints, onCheckpointHit, null, null);
@@ -519,7 +524,7 @@ let Game = function (game, optionsData) {
             }, null, null);
         }, null);
 
-        shadowHandler.update(game, player, walls);
+        shadowHandler.update(game, player, walls, bouncers);
 
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
         if (isIntractive() && !deathHandler.diedRecently) {

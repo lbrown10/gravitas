@@ -2,7 +2,8 @@ let Game = function (game, optionsData) {
 
     // Displayables from level file
     let player,
-        wallssetUp,
+        walls,
+        setUp,
         shockers,
         gravObjects,
         checkpoints,

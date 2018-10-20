@@ -65,7 +65,7 @@ let LevelLoader = function (game) {
                 wall.moving = false;
                 wall.body.immovable = true;
                 wall.anchor.set(.5,.5);
-                levelObjects.walls.add(wall);
+                levelObjects.bouncers.add(wall);
                 break;
             case 'grass':
                 wall = game.add.sprite(objectX, objectY, objectName);
@@ -165,7 +165,9 @@ let LevelLoader = function (game) {
         levelObjects.emitters = game.add.group();
         levelObjects.checkpoints = game.add.group();
         levelObjects.tutorialSigns = game.add.group();
+        levelObjects.bouncers = game.add.group();
         levelObjects.movers = [];
+
 
         return levelObjects;
     }

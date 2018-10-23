@@ -344,13 +344,15 @@ let Game = function (game, optionsData) {
 
         //death counter
         deathCount = 0;
-        deathReadout = game.add.text(85, 15, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
+        deathReadout = game.add.text(100, 30, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
         deathReadout.text = deathCount;
-        death_icon = game.add.sprite(15, 15, 'deathCounter');
+        death_icon = game.add.sprite(30, 30, 'deathCounter');
         death_icon.fixedToCamera = true;
         deathReadout.fixedToCamera = true;
         death_icon.bringToTop();
         deathReadout.bringToTop();
+        death_icon.alpha=0.6;
+        deathReadout.alpha=0.6;
     }
 
     function update() {
@@ -541,7 +543,8 @@ let Game = function (game, optionsData) {
                     }
                     deathReadout.text = deathCount;
                     deathReadout.addColor("#ff0000", 0);
-                    console.log(deathCount);
+                    death_icon.alpha=1;
+                    deathReadout.alpha=1;
                 }, null, null);
         }
     }
@@ -767,6 +770,8 @@ let Game = function (game, optionsData) {
         //Handles resetting levels after player is dead
         game.camera.setPosition(0,0);
         deathReadout.addColor("#ffffff", 0);
+        death_icon.alpha=0.6;
+        deathReadout.alpha=0.6;
 
         if(playerHasHitCheckpoint) {
             resetLevel();

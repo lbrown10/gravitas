@@ -107,7 +107,7 @@ wall,1515,525
 wall,1515,555
 wall,1545,555
 wall,1545,225
-wall,1545,255.00000000000003
+wall,1545,255
 wall,1485,285
 wall,1485,315
 wall,1485,375
@@ -167,6 +167,8 @@ shocker,1425,405
 shocker,1455,375
 shocker,1485,345
 shocker,1515,315
+tutorial_movement,220,435
+tutorial_esc_pause,420,435
 exit,1515,255
 exit,1515,225
 player,52.5,562.5

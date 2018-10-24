@@ -221,6 +221,7 @@ let Game = function (game, optionsData) {
         game.load.image('checkpointActivated', 'assets/art/flag_green.png');
         game.load.image('arrow', 'assets/art/arrow.png');
         game.load.image('groundParticle', 'assets/art/groundParticle.png');
+        game.load.image('bounceParticle', 'assets/art/bounceParticle.png')
         game.load.image('gravParticle', 'assets/art/gravParticle.png');
         game.load.image('circle', 'assets/art/gravCircle.png');
 

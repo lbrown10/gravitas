@@ -21,9 +21,7 @@ wall,405,15
 wall,435,15
 wall,465,15
 wall,495,15
-wall,495,405
 wall,525,15
-wall,525,405
 wall,555,15
 wall,585,15
 wall,615,15
@@ -57,9 +55,7 @@ wall,1425,15
 wall,1455,15
 wall,1485,15
 wall,1515,15
-wall,1515,405
 wall,1545,15
-wall,1545,405
 wall,1575,15
 wall,1605,15
 wall,1635,15
@@ -251,6 +247,14 @@ wall,2445,135
 wall,2415,105
 wall,2415,75
 wall,2415,45
+bounce,1515,405
+bounce,1545,405
+bounce,495,405
+bounce,525,405
+bounce,855,375
+bounce,885,375
+bounce,915,375
+bounce,825,375
 shocker,135,405
 shocker,165,405
 shocker,195,405
@@ -348,8 +352,5 @@ gravObj_off,1245,165,0,300000
 gravObj_off,1815,165,0,300000
 gravObj_off,2145,165,0,300000
 gravObj_off,2415,165,0,300000
-wall_move,795,375,795#375-1215#375
-wall_move,825,375,825#375-1245#375
-wall_move,855,375,855#375-1275#375
 exit,2985,375
 player,37.5,382.5

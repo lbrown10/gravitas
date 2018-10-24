@@ -34,6 +34,7 @@ let Game = function (game, optionsData) {
     let framesSincePressingDown;
     let framesSincePressingUp;
     let framesHoldingR;
+    let isBouncing;
 
     let pauseHandler;
     let deathHandler;
@@ -294,6 +295,7 @@ let Game = function (game, optionsData) {
         gravCirclesBottom = game.add.group();
 
         playerHasHitCheckpoint = false;
+        isBouncing = false;
 
         optionsHandler = new OptionsHandler(game, optionsData, function() {
             pauseHandler.startPauseMenu();
@@ -527,9 +529,11 @@ let Game = function (game, optionsData) {
             }, null, null);
         }, null);
 
-        if (shadowHandler.update(game, player, walls, bouncers)){
+        isBouncing = false;
+        if (shadowHandler.update(game, player, walls, bouncers)){ // Update returns TRUE if the player is touching a bouncer
           jumpHandler.userRequestedJump();
-        };
+          isBouncing = true;
+        }
 
         // If the player is not dead, play the death animation on contact with shockers or the exit animation on contact with an exit
         if (isIntractive() && !deathHandler.diedRecently) {
@@ -648,7 +652,11 @@ let Game = function (game, optionsData) {
             let emitter = game.add.emitter(player.x + player.body.velocity.x/14, player.bottom + 2);
             let numParticles = Math.max(5, (previous_velocity_y - 220)/40) ;
 
-            emitter.makeParticles('groundParticle', 0, numParticles, true);
+            if (isBouncing) {
+              emitter.makeParticles('bounceParticle', 0, numParticles, true);
+            } else {
+              emitter.makeParticles('groundParticle', 0, numParticles, true);
+            }
             emitter.gravity = 300;
             emitter.width = 20;
             emitter.setYSpeed(-100);
@@ -664,7 +672,6 @@ let Game = function (game, optionsData) {
                 hitGroundSound.allowMultiple = false;
                 hitGroundSound.play();
             }
-
         }
 
         // Fade out the particles over their lifespan

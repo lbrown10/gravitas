@@ -6,7 +6,7 @@ $(function() {
     for (let i = 0; i < playerDataList.length; i++) {
       playerDataList[i] = parseInt(playerDataList[i]);
     }
-    let startNum;
+    let startNum = 0;
     for (let i = 0; i < playerDataList.length; i++) {
       if (playerDataList[i] == 1) {
         startNum = i - 1;

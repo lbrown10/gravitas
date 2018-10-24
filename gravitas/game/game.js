@@ -278,6 +278,9 @@ let Game = function (game, optionsData) {
     }
 
     function create() {
+        if (currentLevelNum == null) {
+          currentLevelNum = 0;
+        }
         console.log("Starting Game state at Level #"+currentLevelNum);
         game.stage.backgroundColor = '#faebd7';
         game.physics.startSystem(Phaser.Physics.ARCADE);

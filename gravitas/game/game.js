@@ -485,6 +485,7 @@ let Game = function (game, optionsData) {
 
         gravObjects.children.forEach(function(gravObj) {
             gravObj.resetWeight();
+            gravObj.animateParticles(true);
             gravObj.weightHasBeenChanged = true;
         });
 

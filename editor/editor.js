@@ -153,6 +153,7 @@ function preload() {
     game.load.image('exit', 'assets/art/exit.png');
     game.load.image('player', 'assets/art/player.png');
     game.load.image('path', 'assets/art/path.png');
+    game.load.image('mov_wall', 'assets/art/bricks_red.png');
 }
 
 function draw_gridlines(){
@@ -226,7 +227,7 @@ function create() {
                     walls.add(obj);
                     break;
                 case 'wall_move':
-                    obj = game.add.sprite(objectX, objectY, 'wall');
+                    obj = game.add.sprite(objectX, objectY, 'mov_wall');
                     obj.movementPathing = game.add.group();
                     obj.currentNumber = 1;
                     movementList = objectInfo[3].split('-');

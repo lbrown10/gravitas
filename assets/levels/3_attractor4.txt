@@ -269,10 +269,6 @@ shocker,315,795
 shocker,345,795
 shocker,345,765
 shocker,345,735
-shocker,465,765
-shocker,465,795
-shocker,465,825
-shocker,465,855
 shocker,525,735
 shocker,525,765
 shocker,525,795
@@ -306,11 +302,6 @@ shocker,555,315
 shocker,585,315
 shocker,645,225
 shocker,645,255
-shocker,495,195
-shocker,525,195
-shocker,825,885
-shocker,855,885
-shocker,795,735
 gravObj_off,195,165,0,300000
 gravObj_off,705,225,0,300000
 gravObj_off,225,615,0,300000

@@ -280,9 +280,6 @@ let Game = function (game, optionsData) {
     }
 
     function create() {
-        if (currentLevelNum == null) {
-          currentLevelNum = 0;
-        }
         console.log("Starting Game state at Level #"+currentLevelNum);
         game.stage.backgroundColor = '#faebd7';
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -823,7 +820,7 @@ let Game = function (game, optionsData) {
         let levelList = game.cache.getText('levelList').split('\n');
         playerDataList = localStorage.getItem('user_progress');
         if (playerDataList == null) {
-            playerDataList = [0];
+            playerDataList = [];
             for (let i = 1; i < levelList.length; i++) {
                 playerDataList[i] = 1;
             }

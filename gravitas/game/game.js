@@ -550,7 +550,6 @@ let Game = function (game, optionsData) {
                     deathHandler.deathAnimation(game, player);
                     if (!doubleCheckDeadness){
                         deathCount+=1;
-                        console.log(typeof deathCount);
                         localStorage.setItem('death_count', deathCount);
                         doubleCheckDeadness = true;
                     }

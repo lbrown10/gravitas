@@ -22,7 +22,7 @@ let Game = function (game, optionsData) {
 
     let levelLoader;
     let currentLevel;
-    let deathCount;
+    let deathCount = localStorage.getItem('death_count');
     let deathIcon;
 
     // State info
@@ -346,7 +346,12 @@ let Game = function (game, optionsData) {
         framesHoldingR = 0;
 
         //death counter
-        deathCount = 0;
+        if (deathCount == null) {
+            deathCount = 0;
+            localStorage.setItem('death_count', deathCount);
+        } else {
+          deathCount = parseInt(deathCount);
+        }
         deathReadout = game.add.text(100, 30, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
         deathReadout.text = deathCount;
         death_icon = game.add.sprite(30, 30, 'deathCounter');
@@ -545,6 +550,8 @@ let Game = function (game, optionsData) {
                     deathHandler.deathAnimation(game, player);
                     if (!doubleCheckDeadness){
                         deathCount+=1;
+                        console.log(typeof deathCount);
+                        localStorage.setItem('death_count', deathCount);
                         doubleCheckDeadness = true;
                     }
                     deathReadout.text = deathCount;

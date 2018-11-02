@@ -2,19 +2,6 @@ $(function() {
     const width = 810;
     const height = 420;
 
-    playerDataList = localStorage.getItem('user_progress').split(',');
-    for (let i = 0; i < playerDataList.length; i++) {
-      playerDataList[i] = parseInt(playerDataList[i]);
-    }
-    let startNum = 0;
-    for (let i = 0; i < playerDataList.length; i++) {
-      if (playerDataList[i] == 1) {
-        startNum = i - 1;
-        break;
-      }
-    }
-    const startingLevelNum = startNum;
-
     let game = new Phaser.Game(width, height, Phaser.AUTO, 'gameWindow', null, false, false);
 
     let optionsData = new OptionsData();
@@ -22,10 +9,27 @@ $(function() {
     let bootState = new BootState(game);
     let gameState = new Game(game, optionsData);
 
-    // will merge Win State
     let menu = new Menu(game, optionsData, function() {
-        gameState.setLevel(startingLevelNum);
-        game.state.start('game');
+        let levelList = game.cache.getText('levelList').split('\n');
+        let playerDataList = localStorage.getItem('user_progress');
+        if (playerDataList == null) {
+          playerDataList = [0];
+          for (let i = 1; i < levelList.length; i++) {
+              playerDataList[i] = 1;
+          }
+          localStorage.setItem('user_progress', playerDataList);
+          gameState.setLevel(0);
+          game.state.start('game');
+        } else {
+          playerDataList = playerDataList.split(',');
+          for (let i = 0; i < levelList.length; i++) {
+            if (playerDataList[i] == 1) {
+              gameState.setLevel(i - 1);
+              game.state.start('game');
+              break;
+            }
+          }
+        }
     }, function() {
         game.state.start('levelselect');
     });

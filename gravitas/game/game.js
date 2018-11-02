@@ -21,7 +21,7 @@ let Game = function (game, optionsData) {
     let gravCirclesBottom;
 
     let levelLoader;
-    let currentLevelNum;
+    let currentLevel;
     let deathCount;
     let deathIcon;
 
@@ -91,7 +91,7 @@ let Game = function (game, optionsData) {
     }
 
     function loadLevel() {
-        let levelObjects = levelLoader.loadLevel(currentLevelNum);
+        let levelObjects = levelLoader.loadLevel(currentLevel);
         unpackObjects(levelObjects);
         setLayerOrder();
     }
@@ -280,7 +280,7 @@ let Game = function (game, optionsData) {
     }
 
     function create() {
-        console.log("Starting Game state at Level #"+currentLevelNum);
+        console.log("Starting Game state at Level #"+currentLevel);
         game.stage.backgroundColor = '#faebd7';
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.enableBody = true;
@@ -806,10 +806,9 @@ let Game = function (game, optionsData) {
         exitHandler.reset();
 
         game.physics.arcade.isPaused = false;
-        if (currentLevelNum + 1 === levelLoader.getLevelCount()) {
+        if (currentLevel + 1 === levelLoader.getLevelCount()) {
             game.state.start('win');
         } else {
-            currentLevelNum++;
             loadLevel();
             death_icon.bringToTop();
             deathReadout.bringToTop();
@@ -819,18 +818,10 @@ let Game = function (game, optionsData) {
     function updateLocalStorage() {
         //Handles the local save data
         let levelList = game.cache.getText('levelList').split('\n');
-        playerDataList = localStorage.getItem('user_progress');
-        if (playerDataList == null) {
-            playerDataList = [];
-            for (let i = 1; i < levelList.length; i++) {
-                playerDataList[i] = 1;
-            }
-            localStorage.setItem('user_progress', playerDataList);
-        } else {
-            playerDataList = playerDataList.split(',');
-            playerDataList[Math.min(levelList.length - 1, currentLevelNum + 1)] = 0;
-            localStorage.setItem('user_progress', playerDataList);
-        }
+        playerDataList = localStorage.getItem('user_progress').split(',');
+        currentLevel++;
+        playerDataList[Math.min(levelList.length - 1, currentLevel)] = 0;
+        localStorage.setItem('user_progress', playerDataList);
     }
 
     function onCheckpointHit(player, checkpoint) {
@@ -852,7 +843,7 @@ let Game = function (game, optionsData) {
     }
 
     function setLevel(lnum){
-        currentLevelNum = lnum;
+        currentLevel = lnum;
     }
 
     return {

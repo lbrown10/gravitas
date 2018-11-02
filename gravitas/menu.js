@@ -3,7 +3,7 @@ let Menu = function(game, optionsData, startGameFromMenuCallback, goToLevelSelec
 
     //game.state.add('levelselect', {preload: levelSelect.preload, create: levelSelect.create, update: levelSelect.onLevelSelected});
 
-    let startBtn, levelSelectBtn, optionsButton, background, flame1, flame2, playerDataList;
+    let startBtn, levelSelectBtn, optionsButton, background; // flame1, flame2;
     let fadeIn = true;
     let optionsHandler;
 

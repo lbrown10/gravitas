@@ -12,7 +12,7 @@ let BootState = function(game) {
             // Load file lists here
             game.load.text('levelList', 'assets/levels/levelList.txt');
 
-            game.load.audio('theme', ['assets/audio/gravitasTheme.mp3', 'assets/audio/gravitasTheme.ogg']);
+            //game.load.audio('theme', ['assets/audio/gravitasTheme.mp3', 'assets/audio/gravitasTheme.ogg']);
             // need .ogg if using Firefox
 
             game.stage.smoothed = false;
@@ -25,20 +25,20 @@ let BootState = function(game) {
             $(document).ready(function() {
 
                 // Pause music when the window loses focus
-                let mainTheme = $('#mainTheme');
-                $(window).focus(function() {
-                    mainTheme[0].play();
-                });
-                $(window).blur(function() {
-                    mainTheme[0].pause();
-                });
+                // let mainTheme = $('#mainTheme');
+                // $(window).focus(function() {
+                //     mainTheme[0].play();
+                // });
+                // $(window).blur(function() {
+                //     mainTheme[0].pause();
+                // });
 
                 //On window resize, resize the game
                 $(window).resize(resizeGame);
 
-                mainTheme.prop("volume", 0.1);
-                mainTheme.trigger("play");
-                mainTheme.animate({volume: 1}, 1500);
+                // mainTheme.prop("volume", 0.1);
+                // mainTheme.trigger("play");
+                // mainTheme.animate({volume: 1}, 1500);
 
                 game.state.start('menu');
             });

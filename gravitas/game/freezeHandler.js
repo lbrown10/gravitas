@@ -7,8 +7,8 @@ let FreezeHandler = function(optionsData, activeStateChanged) {
     let arrow;
 
     const freezeMaxTick = 30;
-    const arrowDist = 7;    
-    
+    const arrowDist = 7;
+
     function startFreeze(game) {
         active = true;
         activeStateChanged();
@@ -21,14 +21,14 @@ let FreezeHandler = function(optionsData, activeStateChanged) {
         freezeEffect.volume = 0.3 * optionsData.master * optionsData.soundFX;
         freezeEffect.play();
     }
-    
+
     function endFreeze(game) {
         active = false;
         activeStateChanged();
-        
+
         this.stopFreezeAnimation = true;
         this.freezeAnimation = false;
-        
+
         this.arrow.visible = false;
         this.freezeAnimationTick = freezeMaxTick;
 
@@ -36,11 +36,12 @@ let FreezeHandler = function(optionsData, activeStateChanged) {
         unFreezeEffect.volume = 0.3 * optionsData.master * optionsData.soundFX;
         unFreezeEffect.play();
     }
-    
+
     function doFreezeGraphics(game, graphics, player, easing) {
         let freezeRectSize = game.width * easing(this.freezeAnimationTick, freezeMaxTick);
 
-        graphics.beginFill(0xa3c6ff, .5);
+        graphics.blendMode = PIXI.blendModes.ADD;
+        graphics.beginFill(0x000080, .9);
         graphics.drawRect(player.x - freezeRectSize, player.y - freezeRectSize, 2 * freezeRectSize, 2 * freezeRectSize);
         graphics.endFill();
 
@@ -56,7 +57,7 @@ let FreezeHandler = function(optionsData, activeStateChanged) {
             }
         }
     }
-    
+
     function doArrowChange(player) {
         let xDelta = player.body.velocity.x + player.body.acceleration.x/14;
         let yDelta = player.body.velocity.y + (player.body.acceleration.y + player.body.gravity.y)/14;
@@ -69,18 +70,18 @@ let FreezeHandler = function(optionsData, activeStateChanged) {
         this.arrow.rotation = theta;
         this.arrow.scale.setTo(scale, scale);
     }
-    
+
     function addArrow(game, player) {
         this.arrow = game.add.sprite(player.x, player.y, 'arrow');
         this.arrow.anchor.set(.5, .5);
         this.arrow.visible = false;
     }
-    
+
     function killArrow() {
         this.arrow.destroy();
     }
-    
-    
+
+
     return {
         stopFreezeAnimation: stopFreezeAnimation,
         freezeAnimationTick: freezeAnimationTick,

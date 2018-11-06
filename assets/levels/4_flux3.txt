@@ -143,9 +143,7 @@ wall,255,705
 wall,225,705
 wall,225,735
 wall,225,765
-wall,195,765
 wall,195,795
-wall,165,825
 wall,165,855
 wall,195,855
 wall,195,825
@@ -154,10 +152,8 @@ wall,255,765
 wall,675,705
 wall,705,705
 wall,705,675
-wall,705,645
 wall,735,645
 wall,735,615
-wall,735,585
 wall,765,585
 wall,765,555
 wall,765,525
@@ -172,7 +168,6 @@ wall,465,255
 wall,465,225
 wall,405,225
 wall,615,495
-wall,615,465
 wall,585,465
 wall,585,435
 wall,585,405
@@ -184,10 +179,8 @@ wall,825,525
 wall,855,525
 wall,225,405
 wall,225,375
-wall,225,345
 wall,195,345
 wall,195,315
-wall,195,285
 wall,165,285
 wall,165,255
 wall,165,225
@@ -213,6 +206,13 @@ wall,675,45
 wall,675,75
 wall,675,105
 wall,315,375
+bounce,165,825
+bounce,195,765
+bounce,705,645
+bounce,735,585
+bounce,615,465
+bounce,225,345
+bounce,195,285
 shocker,285,705
 shocker,315,705
 shocker,345,705
@@ -246,7 +246,7 @@ shocker,765,225
 shocker,765,195
 shocker,345,375
 gravObj_off,435,225,0,300000
-gravObj_off,465,14.999999999999998,0,300000
+gravObj_off,465,15,0,300000
 gravObj_flux,435,465,0,300000
 wall_move,315,165,315#165-675#165
 wall_move,345,165,345#165-705#165

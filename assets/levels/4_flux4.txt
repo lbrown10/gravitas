@@ -144,7 +144,6 @@ wall,255,375
 wall,225,375
 wall,195,375
 wall,195,405
-wall,165,435
 wall,165,405
 wall,195,585
 wall,195,615
@@ -154,10 +153,8 @@ wall,105,615
 wall,75,615
 wall,45,615
 wall,105,585
-wall,105,555
 wall,75,555
 wall,75,525
-wall,75,495
 wall,75,585
 wall,45,585
 wall,45,555
@@ -195,10 +192,8 @@ wall,465,225
 wall,435,225
 wall,405,225
 wall,405,195
-wall,405,165
 wall,375,165
 wall,375,135
-wall,375,105
 wall,345,105
 wall,345,75
 wall,345,45
@@ -210,6 +205,13 @@ wall,525,105
 wall,555,105
 wall,585,105
 wall,555,255
+wall,165,585
+wall,135,585
+wall,135,405
+bounce,105,555
+bounce,75,495
+bounce,405,165
+bounce,375,105
 shocker,225,885
 shocker,255,885
 shocker,285,885

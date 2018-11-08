@@ -101,9 +101,9 @@ let Game = function (game, optionsData) {
         game.world.sendToBack(shockers);
         game.world.sendToBack(gravCirclesBottom);
         game.world.sendToBack(backgrounds);
-        game.world.bringToTop(gravCirclesTop);
         game.world.bringToTop(freezeGraphics);
         game.world.bringToTop(selectedObjGraphics);
+        game.world.bringToTop(gravCirclesTop);
 
         doubleCheckDeadness = false;//Have to reset this debug variable here, to insure the kill count only registers a new death after a load.
         freezeHandler.addArrow(game, player);
@@ -426,6 +426,7 @@ let Game = function (game, optionsData) {
                 let circle = game.add.sprite(gravObj.x, gravObj.y, 'circle');
                 circle.anchor.set(.5, .5);
                 circle.alpha = alpha;
+                circle.blendMode = PIXI.blendModes.ADD;
                 circle.width = diameter;
                 circle.height = diameter;
                 circleGroup.add(circle);

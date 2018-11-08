@@ -2,7 +2,7 @@ $(function() {
     const width = 810;
     const height = 420;
 
-    let game = new Phaser.Game(width, height, Phaser.AUTO, 'gameWindow', null, false, false);
+    let game = new Phaser.Game(width, height, Phaser.CANVAS, 'gameWindow', null, false, false);
 
     let optionsData = new OptionsData();
 

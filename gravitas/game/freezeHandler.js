@@ -41,7 +41,7 @@ let FreezeHandler = function(optionsData, activeStateChanged) {
         let freezeRectSize = game.width * easing(this.freezeAnimationTick, freezeMaxTick);
 
         graphics.blendMode = PIXI.blendModes.ADD;
-        graphics.beginFill(0x000080, .9);
+        graphics.beginFill(0x000088, .9);
         graphics.drawRect(player.x - freezeRectSize, player.y - freezeRectSize, 2 * freezeRectSize, 2 * freezeRectSize);
         graphics.endFill();
 

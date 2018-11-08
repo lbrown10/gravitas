@@ -298,7 +298,7 @@ let Game = function (game, optionsData) {
         isBouncing = false;
 
         optionsHandler = new OptionsHandler(game, optionsData, function() {
-            pauseHandler.startPauseMenu();
+            pauseHandler.startPauseMenu(currentLevel);
             pausedOrFrozenStateChanged();
         });
         pauseHandler = new PauseHandler(game, optionsHandler, pausedOrFrozenStateChanged);
@@ -328,7 +328,7 @@ let Game = function (game, optionsData) {
                 if (pauseHandler.isActive()) {
                     pauseHandler.resume();
                 } else {
-                    pauseHandler.startPauseMenu();
+                    pauseHandler.startPauseMenu(currentLevel);
                 }
             }
         };

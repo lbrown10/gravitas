@@ -186,7 +186,7 @@ wall,45,135
 wall,765,405
 wall,795,405
 bounce,735,855
-bounce,705,825
+wall,705,825
 bounce,225,795
 bounce,195,765
 bounce,165,735

@@ -196,7 +196,7 @@ wall,105,285
 wall,75,285
 wall,45,285
 wall,315,255
-wall,345,254.99999999999997
+wall,345,255
 wall,375,285
 wall,405,285
 wall,435,285
@@ -233,13 +233,13 @@ wall,75,315
 wall,75,345
 wall,45,375
 wall,495,105
+wall,855,765
+wall,765,735
+wall,735,735
+wall,705,735
 bounce,765,855
 bounce,795,825
 bounce,825,795
-bounce,855,765
-bounce,765,735
-bounce,735,735
-bounce,705,735
 bounce,285,705
 bounce,255,675
 bounce,225,645

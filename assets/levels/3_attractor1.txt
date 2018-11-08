@@ -262,7 +262,6 @@ bounce,75,195
 bounce,705,855
 bounce,825,735
 bounce,855,675
-bounce,675,855
 shocker,255,825
 shocker,255,855
 shocker,165,885

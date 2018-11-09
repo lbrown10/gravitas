@@ -31,8 +31,6 @@ let Game = function (game, optionsData) {
     let rightKeyWasPressed,
         leftKeyWasPressed;
     let playerHasHitCheckpoint;
-    let framesSincePressingDown;
-    let framesSincePressingUp;
     let framesHoldingR;
     let isBouncing;
 
@@ -341,8 +339,6 @@ let Game = function (game, optionsData) {
         selectableGravObjects = [];
 
         skipPressed = false;
-        framesSincePressingDown = 0;
-        framesSincePressingUp = 0;
         framesHoldingR = 0;
 
         //death counter
@@ -577,32 +573,17 @@ let Game = function (game, optionsData) {
         }
         if (game.input.keyboard.isDown(Phaser.KeyCode.UP) || game.input.keyboard.isDown(Phaser.KeyCode.W)) {
             let obj = selectableGravObjects[currentHighlightedObjIndex];
-            if (obj) {
-                if(framesSincePressingUp < 7 && framesSincePressingUp > 0){
-                    let diff = obj.gravMax - obj.gravWeight;
-                    obj.gravWeight = Math.min(obj.gravMax, obj.gravWeight + (diff/3));
-                } else{
-                    obj.gravWeight = Math.min(obj.gravMax, obj.gravWeight + 5000);
-                }
+            if (obj) {                
+                obj.gravWeight = Math.min(obj.gravMax, obj.gravWeight + 5000);
                 obj.weightHasBeenChanged = true;
             }
-            framesSincePressingUp = 0;
-        } else {
-            framesSincePressingUp ++;
         }
         if (game.input.keyboard.isDown(Phaser.KeyCode.DOWN) || game.input.keyboard.isDown(Phaser.KeyCode.S)) {
             let obj = selectableGravObjects[currentHighlightedObjIndex];
             if (obj) {
-                if(framesSincePressingDown < 7 && framesSincePressingDown > 0){
-                    obj.gravWeight = obj.gravMin;
-                } else {
-                    obj.gravWeight = Math.max(obj.gravMin, obj.gravWeight - 5000);
-                }
+                obj.gravWeight = Math.max(obj.gravMin, obj.gravWeight - 5000);
                 obj.weightHasBeenChanged = true;
             }
-            framesSincePressingDown = 0;
-        } else {
-            framesSincePressingDown++;
         }
     }
 

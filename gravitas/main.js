@@ -31,6 +31,7 @@ $(function() {
             }
             if (i == levelList.length - 1) {
               gameState.setLevel(0);
+              localStorage.setItem('death_count', 0);
               game.state.start('game');
             }
           }

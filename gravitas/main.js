@@ -12,6 +12,7 @@ $(function() {
     let menu = new Menu(game, optionsData, function() {
         let levelList = game.cache.getText('levelList').split('\n');
         let playerDataList = localStorage.getItem('user_progress');
+
         if (playerDataList == null) {
           playerDataList = [0];
           for (let i = 1; i < levelList.length; i++) {
@@ -27,6 +28,10 @@ $(function() {
               gameState.setLevel(i - 1);
               game.state.start('game');
               break;
+            }
+            if (i == levelList.length - 1) {
+              gameState.setLevel(0);
+              game.state.start('game');
             }
           }
         }

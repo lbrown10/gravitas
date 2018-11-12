@@ -111,10 +111,21 @@ let LevelLoader = function (game) {
                 break;
             case 'shocker':
                 let shocker = game.add.sprite(objectX, objectY, objectName);
+                shocker.blendMode = PIXI.blendModes.ADD;
                 shocker.anchor.set(.5, .5);
                 shocker.animations.add('crackle');
-                shocker.animations.play('crackle', 10, true);
+                shocker.animations.play('crackle', Math.random() * 6 + 4, true);
+
+
+                // let shocker2 = game.add.sprite(objectX, objectY, objectName);
+                // shocker2.blendMode = PIXI.blendModes.DIFFERENCE;
+                // shocker2.anchor.set(.5, .5);
+                // shocker2.animations.add('crackle');
+                // shocker2.animations.play('crackle', Math.random() * 10 + 10, true);
+                // shocker2.rotation = Math.PI / 2;
+
                 levelObjects.shockers.add(shocker);
+                // levelObjects.shockers.add(shocker2);
                 break;
             case 'checkpoint':
                 let checkpoint = game.add.sprite(objectX, objectY, objectName);

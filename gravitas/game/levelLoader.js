@@ -151,6 +151,7 @@ let LevelLoader = function (game) {
             case 'tutorial_time_freeze':
             case 'tutorial_gravity_change':
             case 'tutorial_gravity_select':
+            case 'tutorial_bounce':
             case 'tutorial_restart':
                 let sign = game.add.sprite(objectX, objectY, objectName);
                 levelObjects.tutorialSigns.add(sign);
@@ -198,23 +199,30 @@ let LevelLoader = function (game) {
     // Function to determine which starry night tile to use
     // The stoneBG function always returns 1 when there's 4 sprites, so we need a different one for the starry sky
     function skyBG(x, y, lnum, spriteNumMax){
-        let h = x%2;
-        let v = y;
-        if(x%4<2)
-            v++;
-        let out = 1 + h + 2*(v%2);
-        return (out%spriteNumMax) + 1;
+//        let h = x%2;
+//        let v = y;
+//        if(x%4<2)
+//            v++;
+//        let out = 1 + h + 2*(v%2);
+//        return (out%spriteNumMax) + 1;
+        if ((x+y) % 4 != 0){
+            return ((x+y) % 4);
+        } else {
+            return 1;
+        }
     }
 
     function buildBackground(levelObjects, width, height, levelNumber, spriteNumMax, spritePrefix = "bg_large_stone_", blockSize = 30, tileFunction = stoneBG){
         let xMax = parseInt(width) + blockSize;
         let yMax = parseInt(height) + blockSize;
+        
         for(let x=0; x<xMax; x+=blockSize){
             for(let y=0; y<yMax; y+=blockSize){
                 let tileType = tileFunction((x/blockSize), (y/blockSize), levelNumber, spriteNumMax);
                 let newBG = game.add.sprite(x, y, spritePrefix+tileType);
                 newBG.anchor.set(.5, .5);
                 newBG.body.immovable = true;
+               
                 levelObjects.backgrounds.add(newBG);
             }
         }
@@ -235,7 +243,7 @@ let LevelLoader = function (game) {
 
         // Load background
         if(levelNumber == 0){
-            levelObjects = buildBackground(levelObjects, bounds[0], bounds[1], levelNumber, 1, "bg_sky_solid_", 90, skyBG);
+            levelObjects = buildBackground(levelObjects, bounds[0], bounds[1], levelNumber, 1, "bg_sky_", 90, skyBG);
         } else {
             levelObjects = buildBackground(levelObjects, bounds[0], bounds[1], levelNumber, 7, "bg_large_stone_", 90, stoneBG);
         }

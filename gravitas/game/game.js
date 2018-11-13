@@ -230,6 +230,7 @@ let Game = function (game, optionsData) {
         game.load.image('tutorial_gravity_change', 'assets/art/tutorial/gravity_change.png');
         game.load.image('tutorial_gravity_select', 'assets/art/tutorial/gravity_select.png');
         game.load.image('tutorial_restart', 'assets/art/tutorial/restart.png');
+        game.load.image('tutorial_bounce', 'assets/art/tutorial/hold_up_to_bounce.png');
 
         game.load.image('resumeButton', 'assets/art/resumeButton.png');
         game.load.image('menuButton', 'assets/art/menuButton.png');

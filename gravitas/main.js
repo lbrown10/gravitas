@@ -23,7 +23,7 @@ $(function() {
           if (playerDataList.indexOf(1) === -1) { // User has finished the game
             resetUserProgress();
             gameState.setLevel(0);
-            localStorage.setItem('death_count', deathCount);
+            localStorage.setItem('death_count', 0);
             game.state.start('game');
           } else { // User is continuing game
             for (let i = 0; i < levelList.length; i++) {

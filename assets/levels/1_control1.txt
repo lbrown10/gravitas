@@ -88,4 +88,6 @@ wall,405,345
 wall,405,375
 gravObj_off,405,135,0,300000
 exit,765,375
+tutorial_time_freeze,160,200
+tutorial_gravity_change,500,175
 player,52.5,382.5

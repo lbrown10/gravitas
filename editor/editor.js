@@ -148,7 +148,7 @@ function preload() {
     game.load.image('wall', 'assets/art/bricks_gray.png');
     game.load.image('bounce', 'assets/art/bounce.png');
     game.load.image('gravObj', 'assets/art/gravObj.png');
-    game.load.spritesheet('shocker', 'assets/art/electricity_sprites.png', 30, 30, 3);
+    game.load.spritesheet('shocker', 'assets/art/electricity_sprites2.png', 30, 30, 3);
     game.load.image('checkpoint', 'assets/art/flag_green.png');
     game.load.image('exit', 'assets/art/exit.png');
     game.load.image('player', 'assets/art/player.png');

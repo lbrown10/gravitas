@@ -11,7 +11,6 @@ $(function() {
 
     let menu = new Menu(game, optionsData, function() {
         let playerDataList = localStorage.getItem('user_progress');
-
         // Creates 'user_progress' in localStorage.
         if (playerDataList == null) { // User first plays game
           resetUserProgress();
@@ -20,13 +19,16 @@ $(function() {
         } else {
           // Properly sets current game level.
           playerDataList = playerDataList.split(',');
+          for (let i = 0; i < playerDataList.length; i++) {
+            playerDataList[i] = parseInt(playerDataList[i]);
+          }
           if (playerDataList.indexOf(1) === -1) { // User has finished the game
             resetUserProgress();
             gameState.setLevel(0);
             localStorage.setItem('death_count', 0);
             game.state.start('game');
           } else { // User is continuing game
-            for (let i = 0; i < levelList.length; i++) {
+            for (let i = 0; i < playerDataList.length; i++) {
               if (playerDataList[i] == 1) {
                 gameState.setLevel(i - 1);
                 game.state.start('game');

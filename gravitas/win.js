@@ -4,12 +4,17 @@ let Win = function(game, optionsData) {
         flag,
         displayFlag,
         emitters,
-        currentFirework;
+        currentFirework,
+        deathImage,
+        deathCount = localStorage.getItem('death_count'),
+        deathReadout;
 
     function backToMenu() {
         winScreen.kill();
         flag.kill();
         menuButton.kill();
+        deathImage.kill();
+        deathReadout.kill();
         game.state.start('menu');
     }
     
@@ -49,6 +54,7 @@ let Win = function(game, optionsData) {
             game.load.image('winScreen', 'assets/art/winScreen.png');
             game.load.image('menuButton', 'assets/art/menuButton.png');
             game.load.image('gravParticle', 'assets/art/gravParticle.png');
+            game.load.image('deathImage', 'assets/art/death_counter.png');
             game.load.spritesheet('flag', 'assets/art/flagSpritesheet.png', 85, 152, 9);
             game.load.audio('firework1', 'assets/audio/firework1.mp3');
             game.load.audio('firework2', 'assets/audio/firework2.mp3');
@@ -63,6 +69,14 @@ let Win = function(game, optionsData) {
 
             menuButton = game.add.button(game.width/2, 1.4*game.height/2, 'menuButton', backToMenu);
             menuButton.anchor.set(0.5, 0.5);
+
+            deathImage = game.add.sprite(game.width/13, 1.4*game.height/2, 'deathImage');
+            deathCount = parseInt(localStorage.getItem('death_count'));
+            console.log(deathCount);
+            localStorage.setItem('death_count', 0);
+            deathReadout = game.add.text(game.width/8, 1.4*game.height/2, deathCount, { font: "64px AR Destine", fill: "#ffffff", align: "left" });
+            deathReadout.text = " :" + deathCount;
+            deathReadout.addColor("#ffffff", 0);
 
             flag = game.add.sprite(360, 30, 'flag');
             displayFlag = flag.animations.add('displayFlag');

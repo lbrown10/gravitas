@@ -59,6 +59,7 @@ let LevelLoader = function (game) {
                 wall.startingY = objectY;
                 levelObjects.walls.add(wall);
                 levelObjects.movers.push(wall);
+                levelObjects.walls.add(wall);
                 break;
             case 'bounce':
                 wall = game.add.sprite(objectX, objectY, objectName);

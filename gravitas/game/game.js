@@ -370,7 +370,7 @@ let Game = function (game, optionsData) {
         if (exitHandler.inExitAnimation) {
             exitHandler.doExitAnimation(player, blockSize, quadraticEase);
         }
-
+        player.body.moves = true;
         doControlButtons();
 
         doCollision();
@@ -687,6 +687,11 @@ let Game = function (game, optionsData) {
             if (player.body.velocity.y === 0) {
                 player.body.velocity.y = previous_velocity_y;
             }
+        }
+
+        // Handles platforms
+        if (player.body.velocity.x == 0 && (player.isTouchingLeft||player.isTouchingRight) && player.body.touching.down) {
+            player.body.moves = false;
         }
     }
 

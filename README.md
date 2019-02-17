@@ -2,7 +2,7 @@
 
 Gravitas is a platformer that aims to provide an intuitive sense of gravitational dynamics. The main functionality is to allow the player to move and jump, while also manipulating the gravitational pull of objects to traverse the environment.
 
-You can play this game online at https://nguyen-amanda.github.io/gravitas/.
+You can play this game online at https://nguyen-amanda.github.io/gravitas/, or follow the instructions below.
 
 It currently supports Chrome, Firefox, and Safari.
 
@@ -42,6 +42,8 @@ To run the program, simply open the index.html file in the browser of your choic
 * Ilse Dippenaar
 * Tara Feldstein
 * Amanda Doan
+* Luke Brown
+* Emma Thole
 
 ## Acknowledgments
 
